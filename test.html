@@ -1,0 +1,99 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Image Map with Descriptions</title>
+<style>
+  #description {
+    margin-top: 20px;
+    font-size: 1.2em;
+    border: 1px solid #ddd;
+    padding: 20px;
+    max-width: 100%; /* Set max-width to 100% to match the image width */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Add a subtle shadow for depth */
+    background-color: #f9f9f9; /* Light background for better readability */
+  }
+
+  .highlight {
+    border: 2px dashed red;
+    position: absolute;
+    pointer-events: none; /* So it doesn't interfere with hover */
+    z-index: 1000;
+  }
+
+  img {
+    position: relative;
+    max-width: 100%; /* Ensure the image fits within the page width */
+    height: auto;
+  }
+
+  strong {
+    font-size: 1.3em;
+    display: block;
+    margin-bottom: 10px;
+  }
+
+  p {
+    margin-bottom: 10px;
+  }
+
+  em {
+    font-style: italic;
+  }
+</style>
+</head>
+<body>
+
+<!-- Image Map -->
+<div style="position: relative; display: inline-block;">
+<img src="test.png" usemap="#column-map" alt="MCQ Online Feature - P4B">
+  <div class="highlight" id="highlightBox" style="display: none;"></div>
+</div>
+
+<map name="column-map">
+  <area shape="rect" coords="10,10,100,400" alt="Column: ID / Pass" title="Column: ID / Pass" href="" onmouseover="showDescription('Column: ID / Pass', 'Displays the student ID and password', this)" onmouseout="hideHighlight()">
+  <area shape="rect" coords="100,10,250,400" alt="Column: Name" title="Column: Name" href="" onmouseover="showDescription('Column: Name', 'Shows the student\'s name and reading duration', this)" onmouseout="hideHighlight()">
+  <area shape="rect" coords="250,10,400,400" alt="Column: Status" title="Column: Status" href="" onmouseover="showDescription('Column: Status', 'Indicates the current status of the student in the exam', this)" onmouseout="hideHighlight()">
+  <area shape="rect" coords="400,10,550,400" alt="Column: Down - Del" title="Column: Down - Del" href="" onmouseover="showDescription('Column: Down - Del', 'Displays download and delivery stats', this)" onmouseout="hideHighlight()">
+  <area shape="rect" coords="550,10,700,400" alt="Column: Questions" title="Column: Questions" href="" onmouseover="showDescription('Column: Questions', 'Shows the number of questions completed', this)" onmouseout="hideHighlight()">
+  <area shape="rect" coords="700,10,850,400" alt="Column: Responses" title="Column: Responses" href="" onmouseover="showDescription('Column: Responses', 'Indicates the number of responses submitted', this)" onmouseout="hideHighlight()">
+  <area shape="rect" coords="850,10,1000,400" alt="Column: Devices" title="Column: Devices" href="" onmouseover="showDescription('Column: Devices', 'Lists the devices used by students', this)" onmouseout="hideHighlight()">
+  <area shape="rect" coords="1000,10,1150,400" alt="Column: Start [Idle for]" title="Column: Start [Idle for]" href="" onmouseover="showDescription('Column: Start [Idle for]', 'Shows the start time and idle duration', this)" onmouseout="hideHighlight()">
+  <area shape="rect" coords="1150,10,1300,400" alt="Column: Logged out" title="Column: Logged out" href="" onmouseover="showDescription('Column: Logged out', 'Indicates when the student logged out of the exam', this)" onmouseout="hideHighlight()">
+</map>
+
+<!-- Description Area -->
+<div id="description">Hover over an area to see the description here.</div>
+
+<script>
+  function showDescription(title, text, areaElement) {
+    document.getElementById('description').innerHTML = `<strong>${title}</strong><p>${text}</p>`;
+
+    // Highlight the area
+    highlightArea(areaElement);
+  }
+
+  function highlightArea(areaElement) {
+    const coords = areaElement.coords.split(',');
+    const x1 = parseInt(coords[0]);
+    const y1 = parseInt(coords[1]);
+    const x2 = parseInt(coords[2]);
+    const y2 = parseInt(coords[3]);
+
+    const highlight = document.getElementById('highlightBox');
+    highlight.style.left = x1 + 'px';
+    highlight.style.top = y1 + 'px';
+    highlight.style.width = (x2 - x1) + 'px';
+    highlight.style.height = (y2 - y1) + 'px';
+    highlight.style.display = 'block';
+  }
+
+  function hideHighlight() {
+    document.getElementById('highlightBox').style.display = 'none';
+  }
+</script>
+
+</body>
+</html>
