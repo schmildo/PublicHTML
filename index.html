@@ -9,8 +9,10 @@
     margin-top: 20px;
     font-size: 1.2em;
     border: 1px solid #ddd;
-    padding: 10px;
-    width: 300px;
+    padding: 20px;
+    max-width: 100%; /* Set max-width to 100% to match the image width */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Add a subtle shadow for depth */
+    background-color: #f9f9f9; /* Light background for better readability */
   }
 
   .highlight {
@@ -22,11 +24,27 @@
 
   img {
     position: relative;
+    max-width: 100%; /* Ensure the image fits within the page width */
+    height: auto;
+  }
+
+  strong {
+    font-size: 1.3em;
+    display: block;
+    margin-bottom: 10px;
+  }
+
+  p {
+    margin-bottom: 10px;
+  }
+
+  em {
+    font-style: italic;
   }
 </style>
 </head>
 <body>
-<!-- timbo - replace the end of the areas in the map with the following:     onmouseover="showDescription('Heading', 'Blah', this)" onmouseout="hideHighlight()">
+
 <!-- Image Map -->
 <div style="position: relative; display: inline-block;">
   <img src="HTML/ViewLogins.png" usemap="#image-map" alt="Map Image" id="mapImage">
@@ -34,7 +52,7 @@
 </div>
 
 <map name="image-map">
-	<area target="" alt="Column: Checkboxes" title="Column: Checkboxes" href="" coords="15,11,35,294" shape="rect" onmouseover="showDescription('Column: Checkboxes', 'You can select one, multiple or all students - so that you can perform one of the six action buttons not shown here - Reset,Start,Pause,Stop,Change time,Set downloads)', this)" onmouseout="hideHighlight()">
+	<area target="" alt="Column: Checkboxes" title="Column: Checkboxes" href="" coords="15,11,35,294" shape="rect" onmouseover="showDescription('Column: Checkboxes', 'You can select one, multiple or all students - <strong>test strong text</strong> <em>test em text </em> so that you can perform one of the six action buttons not shown here - Reset,Start,Pause,Stop,Change time,Set downloads)', this)" onmouseout="hideHighlight()">
 	<area target="" alt="Column: Devices" title="Column: Devices" href="" coords="632,1,857,324" shape="rect" onmouseover="showDescription('Column: Devices', 'Blah blah.', this)" onmouseout="hideHighlight()">
 	<area target="" alt="Column: ID / Pass" title="Column: ID / Pass" href="" coords="42,0,108,341" shape="rect" onmouseover="showDescription('Column: ID / Pass', 'Student id at top in bold, underneath is their password - set at time of candidate upload or in settings->Manage Candidates - you cannot update the password whilst exam is published.', this)" onmouseout="hideHighlight()">
 	<area target="" alt="Column: Logged Out" title="Column: Logged Out" href="" coords="948,14,1027,327" shape="rect" onmouseover="showDescription('Column: Logged Out', 'Time of day in 24 hour format that the exam finished for this student. Additionally, this will update again when the student clicks submit', this)" onmouseout="hideHighlight()">
