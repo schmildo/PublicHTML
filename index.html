@@ -53,19 +53,25 @@
 
 <map name="image-map">
 	<area target="" alt="Column: Checkboxes" title="Column: Checkboxes" href="" coords="15,11,35,294" shape="rect" onmouseover="showDescription('Column: Checkboxes','bibitytest' 'You can select one, multiple or all students - <strong>test strong text</strong> <em>test em text </em> so that you can perform one of the six action buttons not shown here - Reset,Start,Pause,Stop,Change time,Set downloads)', this)" onmouseout="hideHighlight()">
-	<area target="" alt="Column: Devices" title="Column: Devices" href="" coords="632,1,857,324" shape="rect" onmouseover="showDescription('Column: Devices',, 'Blah blah.', this)" onmouseout="hideHighlight()">
+	<area target="" alt="Column: Devices" title="Column: Devices" href="" coords="632,1,857,324" shape="rect" onmouseover="showDescription('Column: Devices','', 'Blah blah.', this)" onmouseout="hideHighlight()">
 </map>
 
 <!-- Description Area -->
 <div id="description">Hover over an area to see the description here.</div>
 
 <script>
-  function showDescription(title, expectedFormat, text, areaElement) {
-    document.getElementById('description').innerHTML = `<strong>${title}</strong><p>${expectedFormat}</p><p>${text}</p>`;
+function showDescription(title, expectedFormat, text, areaElement) {
+    let descriptionContent = `<strong>${title}</strong>`;
+    if (expectedFormat) {
+        descriptionContent += `<p>${expectedFormat}</p>`;
+    }
+    descriptionContent += `<p>${text}</p>`;
+    
+    document.getElementById('description').innerHTML = descriptionContent;
 
     // Highlight the area
     highlightArea(areaElement);
-  }
+}
 
   function highlightArea(areaElement) {
     const coords = areaElement.coords.split(',');
