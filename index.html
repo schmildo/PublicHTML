@@ -62,7 +62,7 @@
 	<area target="" alt="Column: Status" title="Column: Status" href="" coords="276,5,342,37" shape="rect"  onmouseover="showDescription('Column: Status','', 'This column contains the status of the examination for this student, Pending, can start, in progress, paused, complete. It also contains the exam pin for this session which is shared amongst all students in this session. The students exam status can be overridden by selecting them with the checkbox and then the action buttons not shown.', this)" onmouseout="hideHighlight()">
 	<area target="" alt="Name: Adjusted Reading Duration" title="Name: Adjusted Reading Duration" href="" coords="115,63,225,83" shape="rect" onmouseover="showDescription('Name: Adjusted Reading Duration','', 'This student has had their reading time INCREASED BY three minutes. +/-h:mm', this)" onmouseout="hideHighlight()">
 	<area target="" alt="Name: Students Exam Timer - blank" title="Name: Students Exam Timer - blank" href="" coords="118,235,209,261" shape="rect" onmouseover="showDescription('Name: Blank exam timer','', 'The student has not even started the exam so there is no timer running.', this)" onmouseout="hideHighlight()">
-	<area target="" alt="Name: Student 1" title="Name: Student 1" href="" coords="116,42,221,59" shape="rect" onmouseover="showDescription('Name: Student 1','student_name<br>exam_session_pincode', 'This is the student name and it is a hyperlink that will take you to a screen where you can review detailed activity for this student or all students in this session. It is different from the view activity button that is not shown here.', this)" onmouseout="hideHighlight()">
+	<area target="" alt="Name: Student 1" title="Name: Student 1" href="" coords="116,42,221,59" shape="rect" onmouseover="showDescription('Name: Student 1','firstName lastName<br>exam_session_pincode', 'This is the student name and it is a hyperlink that will take you to a screen where you can review detailed activity for this student or all students in this session. It is different from the view activity button that is not shown here.', this)" onmouseout="hideHighlight()">
 	<area target="" alt="Name: Student 2" title="Name: Student 2" href="" coords="114,98,214,119" shape="rect" onmouseover="showDescription('Name: Student 2','', 'This is the student name and it is a hyperlink that will take you to a screen where you can review detailed activity for this student or all students in this session. It is different from the view activity button that is not shown here.', this)" onmouseout="hideHighlight()">
 	<area target="" alt="Name: Student 3" title="Name: Student 3" href="" coords="114,155,211,174" shape="rect" onmouseover="showDescription('Name: Student 3','', 'This is the student name and it is a hyperlink that will take you to a screen where you can review detailed activity for this student or all students in this session. It is different from the view activity button that is not shown here.', this)" onmouseout="hideHighlight()">
 	<area target="" alt="Name: Student 4" title="Name: Student 4" href="" coords="118,208,211,230" shape="rect" onmouseover="showDescription('Name: Student 4','', 'This is the student name and it is a hyperlink that will take you to a screen where you can review detailed activity for this student or all students in this session. It is different from the view activity button that is not shown here.', this)" onmouseout="hideHighlight()">
@@ -93,7 +93,7 @@
 function showDescription(title, expectedFormat, text, areaElement) {
     let descriptionContent = `<strong>${title}</strong>`;
     if (expectedFormat) {
-        descriptionContent += `<p>${expectedFormat}</p>`;
+        descriptionContent += `<div style="border: 1px solid #ddd; padding: 5px; margin: 5px 0; background-color: #f9f9f9;"><em>${expectedFormat}</em></div>`;
     }
     descriptionContent += `<p>${text}</p>`;
     
@@ -102,6 +102,7 @@ function showDescription(title, expectedFormat, text, areaElement) {
     // Highlight the area
     highlightArea(areaElement);
 }
+
 
   function highlightArea(areaElement) {
     const coords = areaElement.coords.split(',');
