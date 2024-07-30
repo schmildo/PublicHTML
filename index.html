@@ -10,21 +10,21 @@
     font-size: 1.2em;
     border: 1px solid #ddd;
     padding: 20px;
-    max-width: 100%; /* Set max-width to 100% to match the image width */
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Add a subtle shadow for depth */
-    background-color: #f9f9f9; /* Light background for better readability */
+    max-width: 100%;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    background-color: #f9f9f9;
   }
 
   .highlight {
     border: 2px dashed red;
     position: absolute;
-    pointer-events: none; /* So it doesn't interfere with hover */
+    pointer-events: none;
     z-index: 1000;
   }
 
   img {
     position: relative;
-    max-width: 100%; /* Ensure the image fits within the page width */
+    max-width: 100%;
     height: auto;
   }
 
@@ -80,8 +80,8 @@
   
   <!-- Data Rows: Example Cells -->
   <!-- ID / Pass Column -->
-  <area coords="15,50,110,80" shape="rect" onmouseover="showDescription('ID', '1234592', 'goat<br>Reading: +0:03', this)" onmouseout="hideHighlight()">
-  <area coords="15,90,110,120" shape="rect" onmouseover="showDescription('ID', '1234593', '1234<br>Reading: 0:00 (0:03)', this)" onmouseout="hideHighlight()">
+  <area coords="15,50,110,80" shape="rect" onmouseover="showDescription('ID', 'ID', 'goat<br>Reading: +0:03', this)" onmouseout="hideHighlight()">
+  <area coords="15,90,110,120" shape="rect" onmouseover="showDescription('ID', 'ID', '1234<br>Reading: 0:00 (0:03)', this)" onmouseout="hideHighlight()">
   
   <!-- Name Column -->
   <area coords="110,50,250,80" shape="rect" onmouseover="showDescription('Name', 'Name', 'test 26 test 26', this)" onmouseout="hideHighlight()">
@@ -108,14 +108,58 @@
 <div id="description">Hover over an area to see the description here.</div>
 
 <script>
-function showDescription(input, expectedFormat, text, areaElement) {
-    let descriptionContent = `<strong>${input}</strong>`;
-    if (expectedFormat) {
-        descriptionContent += `<div style="border: 1px solid #ddd; padding: 5px; margin: 5px 0; display: inline-block; background-color: #eaeaea;"><em>${expectedFormat}</em></div>`;
+// Base class for columns
+class Column {
+    constructor(type, title, expectedFormat) {
+        this.type = type; // 'ID', 'Name', 'Status', etc.
+        this.title = title;
+        this.expectedFormat = expectedFormat;
     }
-    descriptionContent += `<p>${text}</p>`;
+
+    render() {
+        return `<strong>${this.title}</strong>
+                <div style="border: 1px solid #ddd; padding: 5px; margin: 5px 0; display: inline-block; background-color: #eaeaea;">
+                    <em>${this.expectedFormat}</em>
+                </div>`;
+    }
+}
+
+// Specific column classes
+class NameColumn extends Column {
+    constructor(type, title, expectedFormat, text) {
+        super(type, title, expectedFormat);
+        this.text = text;
+    }
+
+    render() {
+        return `${super.render()}<p>${this.text}</p>`;
+    }
+}
+
+class StatusColumn extends Column {
+    constructor(type, title, expectedFormat, status) {
+        super(type, title, expectedFormat);
+        this.status = status;
+    }
+
+    render() {
+        return `${super.render()}<p>Status: ${this.status}</p>`;
+    }
+}
+
+// Function to display description
+function showDescription(input, expectedFormat, text, areaElement) {
+    let column;
     
-    document.getElementById('description').innerHTML = descriptionContent;
+    if (input === 'Name') {
+        column = new NameColumn(input, 'Student Name', expectedFormat, text);
+    } else if (input === 'Status') {
+        column = new StatusColumn(input, 'Exam Status', expectedFormat, text);
+    } else {
+        column = new Column(input, input, expectedFormat);
+    }
+
+    document.getElementById('description').innerHTML = column.render();
 
     // Highlight the area
     highlightArea(areaElement);
