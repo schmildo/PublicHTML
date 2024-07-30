@@ -83,14 +83,10 @@
 
 <map name="image-map">
   <!-- Using provided coords for accuracy -->
-  <area coords="15,11,35,294" shape="rect" onmouseover="showDescription('Column: Checkboxes', '', 'You can select one, multiple or all students - so that you can perform one of the six action buttons not shown here - Reset,Start,Pause,Stop,Change time,Set downloads', this)" onmouseout="hideHighlight()">
-  <area coords="632,1,857,324" shape="rect" onmouseover="showDescription('Column: Devices', 'hardware/OS/browser browserVersion', 'Blah blah.', this)" onmouseout="hideHighlight()">
-  <area coords="42,0,108,341" shape="rect" onmouseover="showDescription('Column: ID / Pass', 'StudentID<br>StudentPassword', 'Student ID at top in bold, underneath is their password - set at time of candidate upload or in settings->Manage Candidates - you cannot update the password whilst exam is published.', this)" onmouseout="hideHighlight()">
-  <area coords="948,14,1027,327" shape="rect" onmouseover="showDescription('Column: Logged Out', 'hh:mm', 'Time of day in 24 hour format that the exam finished for this student. Additionally, this will update again when the student clicks submit.', this)" onmouseout="hideHighlight()">
-  <area coords="1041,36,1150,317" shape="rect" onmouseover="showDescription('Column: Mark Student Absent', '', 'Blah blah.', this)" onmouseout="hideHighlight()">
-  <area coords="119,8,242,35" shape="rect" onmouseover="showDescription('Column: Name', 'firstname surname<br>Prior to exam start: [Reading: +/-h:mm] [Exam: +/-h:mm]<br>After exam start: [Reading: ]h:mm (h:mm)', 'This column contains the students name and exam timing. The name is a hyperlink to more detail, and the timing will include any adjustments made. The exam timing will be categorised as reading or exam. Reading time is indicated when appropriate, exam timing is not.', this)" onmouseout="hideHighlight()">
-  <area coords="872,0,936,36" shape="rect" onmouseover="showDescription('Column: Start [idle for]', 'hh:mm<br>[[h:mm:ss]]', 'Blah blah.', this)" onmouseout="hideHighlight()">
-  <area coords="276,5,342,37" shape="rect" onmouseover="showDescription('Column: Status', 'Exam Status<br>sessionPin', 'This column contains the status of the examination for this student, Pending, can start, in progress, paused, complete. It also contains the exam pin for this session which is shared amongst all students in this session. The students exam status can be overridden by selecting them with the checkbox and then the action buttons not shown.', this)" onmouseout="hideHighlight()">
+  <area coords="15,11,35,294" shape="rect" onmouseover="showDescription('viewlogins','CHECKBOX', '', 'You can select one, multiple or all students - so that you can perform one of the six action buttons not shown here - Reset,Start,Pause,Stop,Change time,Set downloads', this)" onmouseout="hideHighlight()">
+  <area coords="632,1,857,324" shape="rect" onmouseover="showDescription('viewlogins','IDPASS','',  'Blah blah.', this)" onmouseout="hideHighlight()">
+  <area coords="42,0,108,341" shape="rect" onmouseover="showDescription('viewlogins','NAME', '','Student ID at top in bold, underneath is their password - set at time of candidate upload or in settings->Manage Candidates - you cannot update the password whilst exam is published.', this)" onmouseout="hideHighlight()">
+  <area coords="948,14,1027,327" shape="rect" onmouseover="showDescription('viewlogins','STATUS','', 'Time of day in 24 hour format that the exam finished for this student. Additionally, this will update again when the student clicks submit.', this)" onmouseout="hideHighlight()">
   <!-- Additional areas would follow similar structure -->
 </map>
 
@@ -130,7 +126,32 @@ const columnClasses = {
 function showDescription(pTable, pRow, pColumn, pText, areaElement) {
     let descriptionContent = `<span class="heading">${pTable} - ${pColumn}</span>`;
     let columnInstance;
+    let tableInstance;
 
+      // Instantiate the correct table class based on pTable
+    switch (pTable.toLowerCase()) {
+        case 'viewlogins':
+            tableInstance = new ViewLogins();
+            break;
+        // Add more cases for different tables if needed
+        default:
+            tableInstance = new Table(pTable);
+            break;
+    }
+class ViewLogins extends Table {
+    constructor() {
+        super('viewlogins');
+    }
+
+    render() {
+        // General layout for viewlogins
+        return `<div style="background-color: #f9f9f9; padding: 10px;">${this.renderContent()}</div>`;
+    }
+
+    renderContent() {
+        return ''; // To be overridden by child classes
+    }
+}
     // Use the columnClasses mapping to create the appropriate column class instance
     const columnClass = columnClasses[pTable && pTable.toLowerCase()];
     if (columnClass) {
