@@ -28,18 +28,23 @@
     height: auto;
   }
 
-  strong {
-    font-size: 1.3em;
+  .heading {
+    font-size: 1.5em;
+    font-weight: bold;
     display: block;
     margin-bottom: 10px;
   }
 
-  p {
-    margin-bottom: 10px;
+  .column {
+    font-style: italic;
   }
 
-  em {
-    font-style: italic;
+  .expected-format {
+    border: 1px solid #ddd;
+    padding: 5px;
+    margin: 5px 0;
+    display: inline-block;
+    background-color: #eaeaea;
   }
 </style>
 </head>
@@ -68,98 +73,86 @@
 
 <map name="image-map">
   <!-- Header Row: Column Titles -->
-  <area coords="15,11,110,40" shape="rect" onmouseover="showDescription('ID', 'Header', 'ID and Pass information', this)" onmouseout="hideHighlight()">
-  <area coords="110,11,250,40" shape="rect" onmouseover="showDescription('Name', 'Header', 'Student Name and Exam Timing', this)" onmouseout="hideHighlight()">
-  <area coords="250,11,350,40" shape="rect" onmouseover="showDescription('Status', 'Header', 'Status of the exam for each student', this)" onmouseout="hideHighlight()">
-  <area coords="350,11,450,40" shape="rect" onmouseover="showDescription('Down', 'Header', 'Download and delivery stats', this)" onmouseout="hideHighlight()">
-  <area coords="450,11,550,40" shape="rect" onmouseover="showDescription('Questions', 'Header', 'Questions overview', this)" onmouseout="hideHighlight()">
-  <area coords="550,11,650,40" shape="rect" onmouseover="showDescription('Responses', 'Header', 'Responses summary', this)" onmouseout="hideHighlight()">
-  <area coords="650,11,750,40" shape="rect" onmouseover="showDescription('Devices', 'Header', 'Devices used by students', this)" onmouseout="hideHighlight()">
-  <area coords="750,11,850,40" shape="rect" onmouseover="showDescription('Start', 'Header', 'Start times', this)" onmouseout="hideHighlight()">
-  <area coords="850,11,950,40" shape="rect" onmouseover="showDescription('Logout', 'Header', 'Logout times', this)" onmouseout="hideHighlight()">
-  
-  <!-- Data Rows: Example Cells -->
-  <!-- ID / Pass Column -->
-  <area coords="15,50,110,80" shape="rect" onmouseover="showDescription('ID', 'ID', 'goat<br>Reading: +0:03', this)" onmouseout="hideHighlight()">
-  <area coords="15,90,110,120" shape="rect" onmouseover="showDescription('ID', 'ID', '1234<br>Reading: 0:00 (0:03)', this)" onmouseout="hideHighlight()">
-  
-  <!-- Name Column -->
-  <area coords="110,50,250,80" shape="rect" onmouseover="showDescription('Name', 'Name', 'test 26 test 26', this)" onmouseout="hideHighlight()">
-  <area coords="110,90,250,120" shape="rect" onmouseover="showDescription('Name', 'Name', 'test 27 test 27', this)" onmouseout="hideHighlight()">
-  
-  <!-- Status Column -->
-  <area coords="250,50,350,80" shape="rect" onmouseover="showDescription('Status', 'Status', 'Can start', this)" onmouseout="hideHighlight()">
-  <area coords="250,90,350,120" shape="rect" onmouseover="showDescription('Status', 'Status', 'In progress', this)" onmouseout="hideHighlight()">
-  
-  <!-- Devices Column -->
-  <area coords="650,50,750,80" shape="rect" onmouseover="showDescription('Devices', 'Devices', 'PC / Windows 10 / Chrome 127.0.0', this)" onmouseout="hideHighlight()">
-  <area coords="650,90,750,120" shape="rect" onmouseover="showDescription('Devices', 'Devices', 'PC / Windows 10 / Chrome 127.0.0', this)" onmouseout="hideHighlight()">
-  
-  <!-- Start Column -->
-  <area coords="750,50,850,80" shape="rect" onmouseover="showDescription('Start', 'Start', 'N/A', this)" onmouseout="hideHighlight()">
-  <area coords="750,90,850,120" shape="rect" onmouseover="showDescription('Start', 'Start', '11:14 [0:02:25]', this)" onmouseout="hideHighlight()">
-  
-  <!-- Logged out Column -->
-  <area coords="850,50,950,80" shape="rect" onmouseover="showDescription('Logout', 'Logout', 'N/A', this)" onmouseout="hideHighlight()">
-  <area coords="850,90,950,120" shape="rect" onmouseover="showDescription('Logout', 'Logout', 'N/A', this)" onmouseout="hideHighlight()">
+  <area coords="15,11,110,40" shape="rect" onmouseover="showDescription('viewlogins', 'heading', '', 'This is the heading row', this)" onmouseout="hideHighlight()">
+  <area coords="110,11,250,40" shape="rect" onmouseover="showDescription('viewlogins', 'heading', 'status', 'This is the status columns header', this)" onmouseout="hideHighlight()">
+  <!-- Additional areas would follow similar structure -->
 </map>
 
 <!-- Description Area -->
 <div id="description">Hover over an area to see the description here.</div>
 
 <script>
-// Base class for columns
-class Column {
-    constructor(type, title, expectedFormat) {
-        this.type = type; // 'ID', 'Name', 'Status', etc.
-        this.title = title;
-        this.expectedFormat = expectedFormat;
+// Base Table class
+class Table {
+    constructor(type) {
+        this.type = type;
     }
 
-    render() {
-        return `<strong>${this.title}</strong>
-                <div style="border: 1px solid #ddd; padding: 5px; margin: 5px 0; display: inline-block; background-color: #eaeaea;">
-                    <em>${this.expectedFormat}</em>
-                </div>`;
+    renderExpectedFormat(content) {
+        return `<div class="expected-format"><em>${content}</em></div>`;
     }
 }
 
-// Specific column classes
-class NameColumn extends Column {
-    constructor(type, title, expectedFormat, text) {
-        super(type, title, expectedFormat);
-        this.text = text;
+// Specific table classes, e.g., viewlogins
+class ViewLogins extends Table {
+    constructor() {
+        super('viewlogins');
     }
 
     render() {
-        return `${super.render()}<p>${this.text}</p>`;
+        // General layout for viewlogins
+        return `<div style="background-color: #f9f9f9; padding: 10px;">${this.renderContent()}</div>`;
+    }
+
+    renderContent() {
+        return ''; // To be overridden by child classes
     }
 }
 
-class StatusColumn extends Column {
-    constructor(type, title, expectedFormat, status) {
-        super(type, title, expectedFormat);
-        this.status = status;
+// Column classes
+class StatusColumn extends ViewLogins {
+    constructor() {
+        super();
     }
 
-    render() {
-        return `${super.render()}<p>Status: ${this.status}</p>`;
+    renderContent() {
+        return this.renderExpectedFormat('<STATUS> - <EXAM PIN>');
     }
 }
 
 // Function to display description
-function showDescription(input, expectedFormat, text, areaElement) {
-    let column;
-    
-    if (input === 'Name') {
-        column = new NameColumn(input, 'Student Name', expectedFormat, text);
-    } else if (input === 'Status') {
-        column = new StatusColumn(input, 'Exam Status', expectedFormat, text);
-    } else {
-        column = new Column(input, input, expectedFormat);
+function showDescription(pTable, pRow, pColumn, pText, areaElement) {
+    let descriptionContent = `<span class="heading">${pRow ? pRow.charAt(0).toUpperCase() + pRow.slice(1) : ''}</span>`;
+    let tableInstance;
+
+    // Instantiate the correct table class based on pTable
+    switch (pTable.toLowerCase()) {
+        case 'viewlogins':
+            tableInstance = new ViewLogins();
+            break;
+        // Add more cases for different tables if needed
+        default:
+            tableInstance = new Table(pTable);
+            break;
     }
 
-    document.getElementById('description').innerHTML = column.render();
+    // Add the expected format box for specific columns
+    if (pColumn) {
+        switch (pColumn.toLowerCase()) {
+            case 'status':
+                tableInstance = new StatusColumn();
+                descriptionContent += `<p>${tableInstance.renderContent()}</p>`;
+                break;
+            // Additional columns can be handled here
+        }
+    }
+
+    // Add the provided text
+    if (pText) {
+        descriptionContent += `<p>${pText}</p>`;
+    }
+
+    document.getElementById('description').innerHTML = tableInstance.render() + descriptionContent;
 
     // Highlight the area
     highlightArea(areaElement);
