@@ -45,6 +45,21 @@
 </head>
 <body>
 
+<!-- Class Hierarchy:
+    TableStructure
+    ├─ Column
+    │  ├─ StudentNameColumn
+    │  ├─ DeviceColumn
+    │  └─ ... (other columns)
+    └─ Row
+       ├─ HeaderRow
+       ├─ DataRow
+       └─ ... (other rows)
+    ├─ Cell
+    │  ├─ SubCell
+    └─ CellFactory
+-->
+
 <!-- Image Map -->
 <div style="position: relative; display: inline-block;">
   <img src="HTML/ViewLogins.png" usemap="#image-map" alt="Map Image" id="mapImage">
@@ -52,46 +67,49 @@
 </div>
 
 <map name="image-map">
-	<area target="" alt="Column: Checkboxes" title="Column: Checkboxes" href="" coords="15,11,35,294" shape="rect" onmouseover="showDescription('Column: Checkboxes','','You can select one, multiple or all students - so that you can perform one of the six action buttons not shown here - Reset,Start,Pause,Stop,Change time,Set downloads)', this)" onmouseout="hideHighlight()">
-	<area target="" alt="Column: Devices" title="Column: Devices" href="" coords="632,1,857,324" shape="rect" onmouseover="showDescription('Column: Devices','hardware/OS/browser browserVersion', 'Blah blah.', this)" onmouseout="hideHighlight()">
-	<area target="" alt="Column: ID / Pass" title="Column: ID / Pass" href="" coords="42,0,108,341" shape="rect" onmouseover="showDescription('Column: ID / Pass','StudentID<br>StudentPassword', 'Student id at top in bold, underneath is their password - set at time of candidate upload or in settings->Manage Candidates - you cannot update the password whilst exam is published.', this)" onmouseout="hideHighlight()">
-	<area target="" alt="Column: Logged Out" title="Column: Logged Out" href="" coords="948,14,1027,327" shape="rect" onmouseover="showDescription('Column: Logged Out','hh:mm', 'Time of day in 24 hour format that the exam finished for this student. Additionally, this will update again when the student clicks submit', this)" onmouseout="hideHighlight()">
-	<area target="" alt="Column: Mark Student Absent" title="Column: Mark Student Absent" href="" coords="1041,36,1150,317" shape="rect" onmouseover="showDescription('Column: Mark Student Absent','', 'Blah blah.', this)" onmouseout="hideHighlight()">
-	<area target="" alt="Column: Name" title="Column: Name" href="" coords="119,8,242,35" shape="rect"  onmouseover="showDescription('Column: Name','firstname surname<br>Prior to exam start:  [Reading: +/-h:mm]  [Exam: +/-h:mm]<br>After exam start: [Reading: ]h:mm (h:mm)', 'This column contains the students name and exam timing. The name is a hyperlink to more detail, and the timing will include any adjustments made. The exam timing will be categorised as reading or exam. Reading time is indicated when appropriate, exam timing is not.', this)" onmouseout="hideHighlight()">
-	<area target="" alt="Column: Start [idle for]" title="Column: Start [idle for]" href="" coords="872,0,936,36" shape="rect" onmouseover="showDescription('Column: Start [idle for]','hh:mm<br>[[h:mm:ss]]', 'Blah blah.', this)" onmouseout="hideHighlight()">
-	<area target="" alt="Column: Status" title="Column: Status" href="" coords="276,5,342,37" shape="rect"  onmouseover="showDescription('Column: Status','Exam Status<br>sessionPin', 'This column contains the status of the examination for this student, Pending, can start, in progress, paused, complete. It also contains the exam pin for this session which is shared amongst all students in this session. The students exam status can be overridden by selecting them with the checkbox and then the action buttons not shown.', this)" onmouseout="hideHighlight()">
-	<area target="" alt="Name: Adjusted Reading Duration" title="Name: Adjusted Reading Duration" href="" coords="115,63,225,83" shape="rect" onmouseover="showDescription('Name: Adjusted Reading Duration','', 'This student has had their reading time INCREASED BY three minutes. +/-h:mm', this)" onmouseout="hideHighlight()">
-	<area target="" alt="Name: Students Exam Timer - blank" title="Name: Students Exam Timer - blank" href="" coords="118,235,209,261" shape="rect" onmouseover="showDescription('Name: Blank exam timer','', 'The student has not even started the exam so there is no timer running.', this)" onmouseout="hideHighlight()">
-	<area target="" alt="Name: Student 1" title="Name: Student 1" href="" coords="116,42,221,59" shape="rect" onmouseover="showDescription('Name: Student 1','firstName lastName', 'This is the student name and it is a hyperlink that will take you to a screen where you can review detailed activity for this student or all students in this session. It is different from the view activity button that is not shown here.', this)" onmouseout="hideHighlight()">
-	<area target="" alt="Name: Student 2" title="Name: Student 2" href="" coords="114,98,214,119" shape="rect" onmouseover="showDescription('Name: Student 2','', 'This is the student name and it is a hyperlink that will take you to a screen where you can review detailed activity for this student or all students in this session. It is different from the view activity button that is not shown here.', this)" onmouseout="hideHighlight()">
-	<area target="" alt="Name: Student 3" title="Name: Student 3" href="" coords="114,155,211,174" shape="rect" onmouseover="showDescription('Name: Student 3','', 'This is the student name and it is a hyperlink that will take you to a screen where you can review detailed activity for this student or all students in this session. It is different from the view activity button that is not shown here.', this)" onmouseout="hideHighlight()">
-	<area target="" alt="Name: Student 4" title="Name: Student 4" href="" coords="118,208,211,230" shape="rect" onmouseover="showDescription('Name: Student 4','', 'This is the student name and it is a hyperlink that will take you to a screen where you can review detailed activity for this student or all students in this session. It is different from the view activity button that is not shown here.', this)" onmouseout="hideHighlight()">
-	<area target="" alt="Name: Student 5" title="Name: Student 5" href="" coords="117,264,212,285" shape="rect" onmouseover="showDescription('Name: Student 5','', 'This is the student name and it is a hyperlink that will take you to a screen where you can review detailed activity for this student or all students in this session. It is different from the view activity button that is not shown here.', this)" onmouseout="hideHighlight()">
-	<area target="" alt="Name: Students Exam Timer" title="Name: Students Exam Timer" href="" coords="116,123,251,142" shape="rect" onmouseover="showDescription('Name: Students Exam Timer','', '[Reading:] hmm h:mm - This student is in their reading time(as opposed to exam time) and the total reading time for this student is three minutes, and they have zero whole minutes of time left of reading, so less than a minute.', this)" onmouseout="hideHighlight()">
-	<area target="" alt="Name: Students Exam Timer" title="Name: Students Exam Timer" href="" coords="112,177,199,199" shape="rect" onmouseover="showDescription('Name: Students Exam Timer','', 'This students exams state is complete, and this indicates the student has zero whole minutes remaining of five(includes any timing adjustment for this individual) and the lack of the word reading in front means this is referring to the exam duration not reading time.', this)" onmouseout="hideHighlight()">
-	<area target="" alt="Name: Students Exam Timer - negative zero" title="Name: Students Exam Timer - negative zero" href="" coords="115,289,201,309" shape="rect" onmouseover="showDescription('Name: Students Exam Timer','', 'The student has 0 full minutes remaining in the exam which is obvious because their exam status is complete, and the exam duration not including reading time was five minutes, including individual adjustments for this student.', this)" onmouseout="hideHighlight()">
-	<area target="" alt="Start [Idle for]: Idle time" title="Start [Idle for]: Idle time" href="" coords="870,121,935,140" shape="rect" onmouseover="showDescription('Start [Idle for]: Idle time','Icantremamber', 'Blah blah.', this)" onmouseout="hideHighlight()">
-	<area target="" alt="Start [Idle for]: Start time blank" title="Start [Idle for]: Start time blank" href="" coords="869,45,935,87" shape="rect" onmouseover="showDescription('Start [Idle for]: Start time blank','', 'Start time is blank because this student has not started yet.', this)" onmouseout="hideHighlight()">
-	<area target="" alt="Start [Idle for]: Start time blank" title="Start [Idle for]: Start time blank" href="" coords="867,215,935,256" shape="rect" onmouseover="showDescription('Start [Idle for]: Start time blank','', 'Start time is blank because this student has not started yet.', this)" onmouseout="hideHighlight()">
-	<area target="" alt="Start [Idle for]: Start time" title="Start [Idle for]: Start time" href="" coords="880,99,925,118" shape="rect" onmouseover="showDescription('Start [Idle for]: Start time','', 'Blah blah.', this)" onmouseout="hideHighlight()">
-	<area target="" alt="Start [Idle for]: Start time" title="Start [Idle for]: Start time" href="" coords="868,154,937,203" shape="rect" onmouseover="showDescription('Start [Idle for]: Start time','', 'This student started at 10:49am hh:mm in 24 hour format', this)" onmouseout="hideHighlight()">
-	<area target="" alt="Start [Idle for]: Start time" title="Start [Idle for]: Start time" href="" coords="869,267,937,314" shape="rect" onmouseover="showDescription('Start [Idle for]: Start time','', 'This student started at 10:16am hh:mm in 24 hour format', this)" onmouseout="hideHighlight()">
-	<area target="" alt="Status: Can start" title="Status: Can start" href="" coords="275,42,348,63" shape="rect" onmouseover="showDescription('Status: Can start','', 'Student is authorised to begin the exam the moment they log in.', this)" onmouseout="hideHighlight()">
-	<area target="" alt="Status: Can start" title="Status: Can start" href="" coords="272,213,348,231" shape="rect" onmouseover="showDescription('Status: Can start','', 'Student is authorised to begin the exam the moment they log in', this)" onmouseout="hideHighlight()">
-	<area target="" alt="Status: Complete" title="Status: Complete" href="" coords="274,158,344,177" shape="rect" onmouseover="showDescription('Status: Complete','', 'Student has completed the exam either by the timer running out or they have clicked finalise.', this)" onmouseout="hideHighlight()">
-	<area target="" alt="Status: Complete" title="Status: Complete" href="" coords="266,266,348,311" shape="rect" onmouseover="showDescription('Status: Complete','', 'Student has completed the exam either by the timer running out or they have clicked finalise.', this)" onmouseout="hideHighlight()">
-	<area target="" alt="Status: Exam Pin" title="Status: Exam Pin" href="" coords="283,68,336,83" shape="rect" onmouseover="showDescription('Status: Exam Pin','', ' - all students in the same session will have the same exam pin. This will show even if you dont enable its usage', this)" onmouseout="hideHighlight()">
-	<area target="" alt="Status: Exam Pin" title="Status: Exam Pin" href="" coords="283,127,333,138" shape="rect" onmouseover="showDescription('Status: Exam Pin','', '- all students in the same session will have the same exam pin. This will show even if you dont enable its usage', this)" onmouseout="hideHighlight()">
-	<area target="" alt="Status: Exam Pin" title="Status: Exam Pin" href="" coords="276,237,343,258" shape="rect" onmouseover="showDescription('Status: Exam Pin','', '- all students in the same session will have the same exam pin. This will show even if you dont enable its usage', this)" onmouseout="hideHighlight()">
-	<area target="" alt="Status: In progress" title="Status: In progress" href="" coords="271,101,350,121" shape="rect" onmouseover="showDescription('Status: In Progress','', 'The student is actively sitting the exam', this)" onmouseout="hideHighlight()">
+  <!-- Header Row: Column Titles -->
+  <area coords="15,11,110,40" shape="rect" onmouseover="showDescription('ID', 'Header', 'ID and Pass information', this)" onmouseout="hideHighlight()">
+  <area coords="110,11,250,40" shape="rect" onmouseover="showDescription('Name', 'Header', 'Student Name and Exam Timing', this)" onmouseout="hideHighlight()">
+  <area coords="250,11,350,40" shape="rect" onmouseover="showDescription('Status', 'Header', 'Status of the exam for each student', this)" onmouseout="hideHighlight()">
+  <area coords="350,11,450,40" shape="rect" onmouseover="showDescription('Down', 'Header', 'Download and delivery stats', this)" onmouseout="hideHighlight()">
+  <area coords="450,11,550,40" shape="rect" onmouseover="showDescription('Questions', 'Header', 'Questions overview', this)" onmouseout="hideHighlight()">
+  <area coords="550,11,650,40" shape="rect" onmouseover="showDescription('Responses', 'Header', 'Responses summary', this)" onmouseout="hideHighlight()">
+  <area coords="650,11,750,40" shape="rect" onmouseover="showDescription('Devices', 'Header', 'Devices used by students', this)" onmouseout="hideHighlight()">
+  <area coords="750,11,850,40" shape="rect" onmouseover="showDescription('Start', 'Header', 'Start times', this)" onmouseout="hideHighlight()">
+  <area coords="850,11,950,40" shape="rect" onmouseover="showDescription('Logout', 'Header', 'Logout times', this)" onmouseout="hideHighlight()">
+  
+  <!-- Data Rows: Example Cells -->
+  <!-- ID / Pass Column -->
+  <area coords="15,50,110,80" shape="rect" onmouseover="showDescription('ID', '1234592', 'goat<br>Reading: +0:03', this)" onmouseout="hideHighlight()">
+  <area coords="15,90,110,120" shape="rect" onmouseover="showDescription('ID', '1234593', '1234<br>Reading: 0:00 (0:03)', this)" onmouseout="hideHighlight()">
+  
+  <!-- Name Column -->
+  <area coords="110,50,250,80" shape="rect" onmouseover="showDescription('Name', 'Name', 'test 26 test 26', this)" onmouseout="hideHighlight()">
+  <area coords="110,90,250,120" shape="rect" onmouseover="showDescription('Name', 'Name', 'test 27 test 27', this)" onmouseout="hideHighlight()">
+  
+  <!-- Status Column -->
+  <area coords="250,50,350,80" shape="rect" onmouseover="showDescription('Status', 'Status', 'Can start', this)" onmouseout="hideHighlight()">
+  <area coords="250,90,350,120" shape="rect" onmouseover="showDescription('Status', 'Status', 'In progress', this)" onmouseout="hideHighlight()">
+  
+  <!-- Devices Column -->
+  <area coords="650,50,750,80" shape="rect" onmouseover="showDescription('Devices', 'Devices', 'PC / Windows 10 / Chrome 127.0.0', this)" onmouseout="hideHighlight()">
+  <area coords="650,90,750,120" shape="rect" onmouseover="showDescription('Devices', 'Devices', 'PC / Windows 10 / Chrome 127.0.0', this)" onmouseout="hideHighlight()">
+  
+  <!-- Start Column -->
+  <area coords="750,50,850,80" shape="rect" onmouseover="showDescription('Start', 'Start', 'N/A', this)" onmouseout="hideHighlight()">
+  <area coords="750,90,850,120" shape="rect" onmouseover="showDescription('Start', 'Start', '11:14 [0:02:25]', this)" onmouseout="hideHighlight()">
+  
+  <!-- Logged out Column -->
+  <area coords="850,50,950,80" shape="rect" onmouseover="showDescription('Logout', 'Logout', 'N/A', this)" onmouseout="hideHighlight()">
+  <area coords="850,90,950,120" shape="rect" onmouseover="showDescription('Logout', 'Logout', 'N/A', this)" onmouseout="hideHighlight()">
 </map>
 
 <!-- Description Area -->
 <div id="description">Hover over an area to see the description here.</div>
 
 <script>
-function showDescription(title, expectedFormat, text, areaElement) {
-    let descriptionContent = `<strong>${title}</strong>`;
+function showDescription(input, expectedFormat, text, areaElement) {
+    let descriptionContent = `<strong>${input}</strong>`;
     if (expectedFormat) {
         descriptionContent += `<div style="border: 1px solid #ddd; padding: 5px; margin: 5px 0; display: inline-block; background-color: #eaeaea;"><em>${expectedFormat}</em></div>`;
     }
@@ -103,9 +121,7 @@ function showDescription(title, expectedFormat, text, areaElement) {
     highlightArea(areaElement);
 }
 
-
-
-  function highlightArea(areaElement) {
+function highlightArea(areaElement) {
     const coords = areaElement.coords.split(',');
     const x1 = parseInt(coords[0]);
     const y1 = parseInt(coords[1]);
@@ -118,11 +134,11 @@ function showDescription(title, expectedFormat, text, areaElement) {
     highlight.style.width = (x2 - x1) + 'px';
     highlight.style.height = (y2 - y1) + 'px';
     highlight.style.display = 'block';
-  }
+}
 
-  function hideHighlight() {
+function hideHighlight() {
     document.getElementById('highlightBox').style.display = 'none';
-  }
+}
 </script>
 
 </body>
