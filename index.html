@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<!-- Version: 1 -->
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -44,7 +45,7 @@
     border: 1px solid #ddd;
     padding: 10px;
     margin: 10px 0;
-    display: block;
+    display: inline-block;
     background-color: #eaeaea;
   }
 </style>
@@ -110,6 +111,28 @@ class ViewLogins extends Table {
     }
 }
 
+// Row classes
+class HeaderRow extends ViewLogins {
+    constructor() {
+        super();
+    }
+
+    renderContent() {
+        return this.renderExpectedFormat('Header Row Expected Format');
+    }
+}
+
+class StudentRow extends ViewLogins {
+    constructor(name) {
+        super();
+        this.name = name;
+    }
+
+    renderContent() {
+        return this.renderExpectedFormat(`Student: ${this.name}`);
+    }
+}
+
 // Column classes
 class StatusColumn extends ViewLogins {
     constructor() {
@@ -117,13 +140,13 @@ class StatusColumn extends ViewLogins {
     }
 
     renderContent() {
-        return this.renderExpectedFormat('status - exam pin');
+        return this.renderExpectedFormat('<STATUS> - <EXAM PIN>');
     }
 }
 
 // Function to display description
 function showDescription(pTable, pRow, pColumn, pText, areaElement) {
-    let descriptionContent = `<span class="heading">${pRow ? pRow.charAt(0).toUpperCase() + pRow.slice(1) : ''}</span>`;
+    let descriptionContent = `<span class="heading">${pRow ? pRow.charAt(0).toUpperCase() + pRow.slice(1) : ''}${pColumn ? ' - ' + pColumn : ''}</span>`;
     let tableInstance;
 
     // Instantiate the correct table class based on pTable
@@ -137,16 +160,19 @@ function showDescription(pTable, pRow, pColumn, pText, areaElement) {
             break;
     }
 
-    // Add the expected format box for specific columns
-    if (pColumn) {
-        switch (pColumn.toLowerCase()) {
-            case 'status':
-                tableInstance = new StatusColumn();
-                descriptionContent += `<p>${tableInstance.renderContent()}</p>`;
-                break;
-            // Additional columns can be handled here
-        }
+    // Determine row or column content
+    if (pRow && pRow.toLowerCase() === 'heading') {
+        tableInstance = new HeaderRow();
+    } else if (pRow) {
+        tableInstance = new StudentRow(pRow);
     }
+
+    // Add the expected format box for specific columns
+    if (pColumn && pColumn.toLowerCase() === 'status') {
+        tableInstance = new StatusColumn();
+    }
+
+    descriptionContent += `<p>${tableInstance.renderContent()}</p>`;
 
     // Add the provided text
     if (pText) {
