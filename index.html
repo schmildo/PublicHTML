@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Version: 1 -->
+<!-- Version: 2 -->
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -55,12 +55,20 @@
 <!-- Class Hierarchy:
     TableStructure
     ├─ Column
-    │  ├─ StudentNameColumn
-    │  ├─ DeviceColumn
-    │  └─ ... (other columns)
+    │  ├─ COL_1 (CHECKBOX)
+    │  ├─ COL_2 (IDPASS)
+    │  ├─ COL_3 (NAME)
+    │  ├─ COL_4 (STATUS)
+    │  ├─ COL_5 (DOWNDEL)
+    │  ├─ COL_6 (QUESTIONS)
+    │  ├─ COL_7 (RESPONSES)
+    │  ├─ COL_8 (DEVICES)
+    │  ├─ COL_9 (STARTIDLEFOR)
+    │  ├─ COL_10 (LOGGEDOUT)
+    │  ├─ COL_11 (DIDNOTATTEND)
     └─ Row
        ├─ HeaderRow
-       ├─ DataRow
+       ├─ StudentRow
        └─ ... (other rows)
     ├─ Cell
     │  ├─ SubCell
@@ -75,74 +83,50 @@
 
 <map name="image-map">
   <!-- Header Row: Column Titles -->
-  <area coords="15,11,110,40" shape="rect" onmouseover="showDescription('viewlogins', 'heading', '', 'This is the heading row', this)" onmouseout="hideHighlight()">
-  <area coords="110,11,250,40" shape="rect" onmouseover="showDescription('viewlogins', 'heading', 'status', 'This is the status columns header', this)" onmouseout="hideHighlight()">
-  <!-- Additional areas would follow similar structure -->
+  <area coords="15,11,110,40" shape="rect" onmouseover="showDescription('viewlogins', 'heading', 'checkbox', 'This is the CHECKBOX column', this)" onmouseout="hideHighlight()">
+  <area coords="110,11,250,40" shape="rect" onmouseover="showDescription('viewlogins', 'heading', 'idpass', 'This is the IDPASS column', this)" onmouseout="hideHighlight()">
+  <area coords="250,11,350,40" shape="rect" onmouseover="showDescription('viewlogins', 'heading', 'name', 'This is the NAME column', this)" onmouseout="hideHighlight()">
+  <area coords="350,11,450,40" shape="rect" onmouseover="showDescription('viewlogins', 'heading', 'status', 'This is the STATUS column', this)" onmouseout="hideHighlight()">
+  <area coords="450,11,550,40" shape="rect" onmouseover="showDescription('viewlogins', 'heading', 'downdel', 'This is the DOWNDEL column', this)" onmouseout="hideHighlight()">
+  <area coords="550,11,650,40" shape="rect" onmouseover="showDescription('viewlogins', 'heading', 'questions', 'This is the QUESTIONS column', this)" onmouseout="hideHighlight()">
+  <area coords="650,11,750,40" shape="rect" onmouseover="showDescription('viewlogins', 'heading', 'responses', 'This is the RESPONSES column', this)" onmouseout="hideHighlight()">
+  <area coords="750,11,850,40" shape="rect" onmouseover="showDescription('viewlogins', 'heading', 'devices', 'This is the DEVICES column', this)" onmouseout="hideHighlight()">
+  <area coords="850,11,950,40" shape="rect" onmouseover="showDescription('viewlogins', 'heading', 'startidlefor', 'This is the STARTIDLEFOR column', this)" onmouseout="hideHighlight()">
+  <area coords="950,11,1050,40" shape="rect" onmouseover="showDescription('viewlogins', 'heading', 'loggedout', 'This is the LOGGEDOUT column', this)" onmouseout="hideHighlight()">
+  <area coords="1050,11,1150,40" shape="rect" onmouseover="showDescription('viewlogins', 'heading', 'didnotattend', 'This is the DIDNOTATTEND column', this)" onmouseout="hideHighlight()">
 </map>
 
 <!-- Description Area -->
 <div id="description">Hover over an area to see the description here.</div>
 
 <script>
-// Base Table class
-class Table {
-    constructor(type) {
-        this.type = type;
-    }
+// Generic column class names
+class COL_1 { renderContent() { return "Content for COL_1 (CHECKBOX)"; } }
+class COL_2 { renderContent() { return "Content for COL_2 (IDPASS)"; } }
+class COL_3 { renderContent() { return "Content for COL_3 (NAME)"; } }
+class COL_4 { renderContent() { return "Content for COL_4 (STATUS)"; } }
+class COL_5 { renderContent() { return "Content for COL_5 (DOWNDEL)"; } }
+class COL_6 { renderContent() { return "Content for COL_6 (QUESTIONS)"; } }
+class COL_7 { renderContent() { return "Content for COL_7 (RESPONSES)"; } }
+class COL_8 { renderContent() { return "Content for COL_8 (DEVICES)"; } }
+class COL_9 { renderContent() { return "Content for COL_9 (STARTIDLEFOR)"; } }
+class COL_10 { renderContent() { return "Content for COL_10 (LOGGEDOUT)"; } }
+class COL_11 { renderContent() { return "Content for COL_11 (DIDNOTATTEND)"; } }
 
-    renderExpectedFormat(content) {
-        return `<div class="expected-format"><em>${content}</em></div>`;
-    }
-}
-
-// Specific table classes, e.g., viewlogins
-class ViewLogins extends Table {
-    constructor() {
-        super('viewlogins');
-    }
-
-    render() {
-        // General layout for viewlogins
-        return `<div style="background-color: #f9f9f9; padding: 10px;">${this.renderContent()}</div>`;
-    }
-
-    renderContent() {
-        return ''; // To be overridden by child classes
-    }
-}
-
-// Row classes
-class HeaderRow extends ViewLogins {
-    constructor() {
-        super();
-    }
-
-    renderContent() {
-        return this.renderExpectedFormat('Header Row Expected Format');
-    }
-}
-
-class StudentRow extends ViewLogins {
-    constructor(name) {
-        super();
-        this.name = name;
-    }
-
-    renderContent() {
-        return this.renderExpectedFormat(`Student: ${this.name}`);
-    }
-}
-
-// Column classes
-class StatusColumn extends ViewLogins {
-    constructor() {
-        super();
-    }
-
-    renderContent() {
-        return this.renderExpectedFormat('<STATUS> - <EXAM PIN>');
-    }
-}
+// Mapping of human-readable names to generic class constructors
+const columnClasses = {
+    'checkbox': COL_1,
+    'idpass': COL_2,
+    'name': COL_3,
+    'status': COL_4,
+    'downdel': COL_5,
+    'questions': COL_6,
+    'responses': COL_7,
+    'devices': COL_8,
+    'startidlefor': COL_9,
+    'loggedout': COL_10,
+    'didnotattend': COL_11
+};
 
 // Function to display description
 function showDescription(pTable, pRow, pColumn, pText, areaElement) {
@@ -160,16 +144,10 @@ function showDescription(pTable, pRow, pColumn, pText, areaElement) {
             break;
     }
 
-    // Determine row or column content
-    if (pRow && pRow.toLowerCase() === 'heading') {
-        tableInstance = new HeaderRow();
-    } else if (pRow) {
-        tableInstance = new StudentRow(pRow);
-    }
-
-    // Add the expected format box for specific columns
-    if (pColumn && pColumn.toLowerCase() === 'status') {
-        tableInstance = new StatusColumn();
+    // Use the columnClasses mapping to create the appropriate column class instance
+    const columnClass = columnClasses[pColumn && pColumn.toLowerCase()];
+    if (columnClass) {
+        tableInstance = new columnClass();
     }
 
     descriptionContent += `<p>${tableInstance.renderContent()}</p>`;
