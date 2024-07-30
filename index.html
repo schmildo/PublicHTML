@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Version: 4 -->
+<!-- Version: 5 -->
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -53,26 +53,16 @@
 <body>
 
 <!-- Class Hierarchy:
-    TableStructure
-    ├─ Column
-    │  ├─ COL_1 (CHECKBOX)
-    │  ├─ COL_2 (IDPASS)
-    │  ├─ COL_3 (NAME)
-    │  ├─ COL_4 (STATUS)
-    │  ├─ COL_5 (DOWNDEL)
-    │  ├─ COL_6 (QUESTIONS)
-    │  ├─ COL_7 (RESPONSES)
-    │  ├─ COL_8 (DEVICES)
-    │  ├─ COL_9 (STARTIDLEFOR)
-    │  ├─ COL_10 (LOGGEDOUT)
-    │  ├─ COL_11 (DIDNOTATTEND)
-    └─ Row
-       ├─ HeaderRow
-       ├─ StudentRow
-       └─ ... (other rows)
-    ├─ Cell
-    │  ├─ SubCell
-    └─ CellFactory
+    TableElement
+    ├─ HeaderElement
+    ├─ DataElement
+    ├─ Specific Columns
+    │  ├─ CheckboxColumn
+    │  ├─ IDPassColumn
+    │  └─ StatusColumn
+    ├─ Specific Rows
+       ├─ StudentNameRow
+       └─ ExamDetailsRow
 -->
 
 <!-- Image Map -->
@@ -82,103 +72,118 @@
 </div>
 
 <map name="image-map">
-  <area coords="15,11,35,294" shape="rect" onmouseover="showDescription('viewlogins', 'CHECKBOX', 'Checkbox', 'You can select one, multiple or all students - so that you can perform one of the six action buttons not shown here - Reset,Start,Pause,Stop,Change time,Set downloads', this)" onmouseout="hideHighlight()">
-  <area coords="632,1,857,324" shape="rect" onmouseover="showDescription('viewlogins', 'IDPASS', 'ID/Pass', 'Blah blah.', this)" onmouseout="hideHighlight()">
-  <area coords="42,0,108,341" shape="rect" onmouseover="showDescription('viewlogins', 'NAME', 'Name', 'Student ID at top in bold, underneath is their password - set at time of candidate upload or in settings->Manage Candidates - you cannot update the password whilst exam is published.', this)" onmouseout="hideHighlight()">
-  <area coords="948,14,1027,327" shape="rect" onmouseover="showDescription('viewlogins', 'STATUS', 'Status', 'Time of day in 24 hour format that the exam finished for this student. Additionally, this will update again when the student clicks submit.', this)" onmouseout="hideHighlight()">
-  <!-- Additional areas would follow similar structure -->
+  <!-- Using provided coords for accuracy -->
+  <area coords="15,11,35,294" shape="rect" onmouseover="showDescription('header', 'Status', '', '', this)" onmouseout="hideHighlight()">
+  <area coords="42,0,108,341" shape="rect" onmouseover="showDescription('data', 'Student Name', '', 'John Doe', this)" onmouseout="hideHighlight()">
+  <area coords="632,1,857,324" shape="rect" onmouseover="showDescription('checkbox', '', '', '', this)" onmouseout="hideHighlight()">
+  <area coords="948,14,1027,327" shape="rect" onmouseover="showDescription('examdetails', '', 'IDPass', 'Exam details for a student.', this)" onmouseout="hideHighlight()">
 </map>
 
 <!-- Description Area -->
 <div id="description">Hover over an area to see the description here.</div>
 
 <script>
-// Generic column class names with expected format examples
-class COL_1 {
-    renderContent() {
-        return "<div class='expected-format'>Expected format: Checkbox selection</div>Content for COL_1 (CHECKBOX)";
+// Base class for both rows and columns
+class TableElement {
+    constructor(name) {
+        this.name = name;
     }
-}
-class COL_2 {
+
     renderContent() {
-        return "<div class='expected-format'>Expected format: ID/Pass format</div>Content for COL_2 (IDPASS)";
-    }
-}
-class COL_3 {
-    renderContent() {
-        return "<div class='expected-format'>Expected format: Name format</div>Content for COL_3 (NAME)";
-    }
-}
-class COL_4 {
-    renderContent() {
-        return "<div class='expected-format'>Expected format: Status format</div>Content for COL_4 (STATUS)";
-    }
-}
-class COL_5 {
-    renderContent() {
-        return "<div class='expected-format'>Expected format: Download/Deletion format</div>Content for COL_5 (DOWNDEL)";
-    }
-}
-class COL_6 {
-    renderContent() {
-        return "<div class='expected-format'>Expected format: Questions format</div>Content for COL_6 (QUESTIONS)";
-    }
-}
-class COL_7 {
-    renderContent() {
-        return "<div class='expected-format'>Expected format: Responses format</div>Content for COL_7 (RESPONSES)";
-    }
-}
-class COL_8 {
-    renderContent() {
-        return "<div class='expected-format'>Expected format: Devices format</div>Content for COL_8 (DEVICES)";
-    }
-}
-class COL_9 {
-    renderContent() {
-        return "<div class='expected-format'>Expected format: Start/Idle format</div>Content for COL_9 (STARTIDLEFOR)";
-    }
-}
-class COL_10 {
-    renderContent() {
-        return "<div class='expected-format'>Expected format: Logged Out format</div>Content for COL_10 (LOGGEDOUT)";
-    }
-}
-class COL_11 {
-    renderContent() {
-        return "<div class='expected-format'>Expected format: Did Not Attend format</div>Content for COL_11 (DIDNOTATTEND)";
+        return `<div class='expected-format'>Expected format: ${this.name}</div>Content for ${this.name}`;
     }
 }
 
-// Mapping of human-readable names to generic class constructors
-const columnClasses = {
-    'checkbox': COL_1,
-    'idpass': COL_2,
-    'name': COL_3,
-    'status': COL_4,
-    'downdel': COL_5,
-    'questions': COL_6,
-    'responses': COL_7,
-    'devices': COL_8,
-    'startidlefor': COL_9,
-    'loggedout': COL_10,
-    'didnotattend': COL_11
-};
+// Specific types extending the base class
+class HeaderElement extends TableElement {
+    renderContent() {
+        return `<div class='expected-format'>Expected format: Header - ${this.name}</div>Content for ${this.name} (Header)`;
+    }
+}
+
+class DataElement extends TableElement {
+    constructor(name, data) {
+        super(name);
+        this.data = data;
+    }
+
+    renderContent() {
+        return `<div class='expected-format'>Expected format: Data - ${this.name}</div>Content for ${this.name}: ${this.data}`;
+    }
+}
+
+// Specific column and row examples
+class CheckboxColumn extends TableElement {
+    renderContent() {
+        return `<div class='expected-format'>Expected format: Checkbox selection</div>Content for Checkbox Column`;
+    }
+}
+
+class IDPassColumn extends TableElement {
+    renderContent() {
+        return `<div class='expected-format'>Expected format: ID/Pass format</div>Content for ID/Pass Column: ID and Password information`;
+    }
+}
+
+class StatusColumn extends TableElement {
+    renderContent() {
+        return `<div class='expected-format'>Expected format: Status</div>Content for Status Column: Status details`;
+    }
+}
+
+class StudentNameRow extends DataElement {
+    renderContent() {
+        return `<div class='expected-format'>Expected format: Student Name</div>Content for ${this.name}: ${this.data}`;
+    }
+}
+
+class ExamDetailsRow extends DataElement {
+    renderContent() {
+        return `<div class='expected-format'>Expected format: Exam Details</div>Content for ${this.name}: ${this.data}`;
+    }
+}
+
+// Function to create an element class instance
+function createElementInstance(type, name, data = '') {
+    switch (type.toLowerCase()) {
+        case 'header':
+            return new HeaderElement(name);
+        case 'data':
+            return new DataElement(name, data);
+        case 'checkbox':
+            return new CheckboxColumn(name);
+        case 'idpass':
+            return new IDPassColumn(name);
+        case 'status':
+            return new StatusColumn(name);
+        case 'studentname':
+            return new StudentNameRow(name, data);
+        case 'examdetails':
+            return new ExamDetailsRow(name, data);
+        default:
+            return new TableElement(name);
+    }
+}
 
 // Function to display description
-function showDescription(pTable, pRow, pColumn, pText, areaElement) {
-    let descriptionContent = `<span class="heading">${pTable} - ${pColumn}</span>`;
+function showDescription(type, pRow, pColumn, pText, areaElement) {
+    let descriptionContent = `<span class="heading">${pRow ? pRow : ''} - ${pColumn ? pColumn : ''}</span>`;
+    let rowInstance;
     let columnInstance;
 
-    // Use the columnClasses mapping to create the appropriate column class instance
-    const columnClass = columnClasses[pRow && pRow.toLowerCase()];
-    if (columnClass) {
-        columnInstance = new columnClass();
+    // Create the appropriate row or column class instance dynamically
+    if (pRow) {
+        rowInstance = createElementInstance(type, pRow, pText);
+        descriptionContent += `<p>${rowInstance.renderContent()}</p>`;
+    }
+
+    if (pColumn) {
+        columnInstance = createElementInstance(type, pColumn, pText);
         descriptionContent += `<p>${columnInstance.renderContent()}</p>`;
     }
 
-    // Add the provided text
-    if (pText) {
+    // Add the provided text if neither row nor column are specified
+    if (!pRow && !pColumn && pText) {
         descriptionContent += `<p>${pText}</p>`;
     }
 
