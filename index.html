@@ -144,6 +144,13 @@ function showDescription(pTable, pRow, pColumn, pText, areaElement) {
             break;
     }
 
+    // Determine row or column content
+    if (pRow && pRow.toLowerCase() === 'heading') {
+        tableInstance = new HeaderRow();
+    } else if (pRow) {
+        tableInstance = new StudentRow(pRow);
+    }
+
     // Use the columnClasses mapping to create the appropriate column class instance
     const columnClass = columnClasses[pColumn && pColumn.toLowerCase()];
     if (columnClass) {
