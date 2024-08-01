@@ -28,6 +28,7 @@
     border-radius: 5px;
     font-size: 0.9em; /* Slightly smaller text */
     color: #333; /* Dark gray text */
+	display: inline-block; /* Fit width to content */
 }
 
 /* Styling for the data format area, similar to STYLE_TYPENAME but different background */
@@ -39,6 +40,7 @@
     border-radius: 5px;
     font-size: 0.9em;
     color: #333;
+	display: inline-block; /* Fit width to content */
 }
 
 .STYLE_HEADING {
@@ -158,7 +160,9 @@
 			parentContent = parentContent.replace('{{REPLACE_ROW_NAME}}', this.mRow);
 			parentContent = parentContent.replace('{{REPLACE_COL_NAME}}', this.mColumn);
 			parentContent = parentContent.replace('{{REPLACE_DATAFORMAT}}', this.mDataFormat);
-			parentContent = parentContent.replace('{{STYLE_COMMENT}}', this.mType+this.mName+this.mText);
+				parentContent = parentContent.replace('{{REPLACE_TYPE}}', this.mType);
+				parentContent = parentContent.replace('{{REPLACE_NAME}}', this.mName);
+			parentContent = parentContent.replace('{{STYLE_COMMENT}}', this.mText);
 
 			return parentContent;
 		}
