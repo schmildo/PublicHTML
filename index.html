@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Version: 11 -->
+<!-- Version: 12 -->
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -153,15 +153,15 @@
 		else if (pRow && !pColumn){lstr_RowColStatus = 'JustRow'}
 		else if (!pRow && pColumn){lstr_RowColStatus = 'JustColumn'}
 		else if (pRow && pColumn) {lstr_RowColStatus = 'RowAndColumn'}
-		else{}
+		
 
 
 		switch (lstr_RowColStatus)// placeholder  - should probably do something useful
 		{
 			case 'NoRowOrColumn':
-				return 'NoRowOrColumn'
+				return 'NoRowOrColumn';
 			case 'JustRow':
-				return 'JustRow':
+				return 'JustRow';
 			case 'JustColumn':
 				return 'JustColumn';
 			case 'RowAndColumn':
@@ -190,7 +190,7 @@
 			}
 	}
 
-	// Function to create an element class instance
+
 	function fn_createElementInstance(pType, pRow, pColumn, pText, pName)
 	{
 		switch (pType.toLowerCase())
@@ -202,19 +202,18 @@
 		}
 	}
 
-		// Function to display description
+
 	function fn_showDescription(pType, pRow, pColumn, pText)
 	{
-		// Create the appropriate class instance dynamically
+
 		let elementInstance = fn_createElementInstance(pType, pRow, pColumn, pText, fn_getName(pRow,pColumn));
 
-		// Assuming elementInstance has a method get_strHTMLTemplate to generate HTML
+
 		let descriptionContent = elementInstance.fn_SubstituteVariables()
 
 		document.getElementById('description').innerHTML = descriptionContent;
 
-		// Assuming areaElement is defined, highlight the area
-		// fn_highlightArea(areaElement); // Uncomment and use if areaElement is available
+
 	}
 
 	function fn_highlightArea(areaElement)
