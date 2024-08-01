@@ -120,7 +120,7 @@
 		{
 			super(pType, pRow, pColumn, pText, pName); // Call the parent constructor with both parameters
 			// Additional child-specific initialization
-			this.additionalData = `Processed: ${data}`; // Example of processing the data
+			this.additionalData = `default class's version of ptext: ${pText}`; // Example of processing the data
 		}
 
 			fn_SubstituteVariables() {
@@ -137,7 +137,7 @@
 			// Replace the placeholders with the specific content
 			parentContent = parentContent.replace('{{REPLACE_ROW_NAME}}', this.mRow);
 			parentContent = parentContent.replace('{{REPLACE_COL_NAME}}', this.mColumn);
-			parentContent = parentContent.replace('{{REPLACE_DATAFORMAT}}', test3);
+			parentContent = parentContent.replace('{{REPLACE_DATAFORMAT}}', 'this is supposed to be the data format);
 			parentContent = parentContent.replace('{{STYLE_COMMENT}}', this.mType+this.mName+this.mText);
 
 			return parentContent;
@@ -145,50 +145,50 @@
 	}
 
 
-function fn_whatWasProvided(pRow,pColumn)
-{
-	let lstr_RowColStatus;
-	
-	if(!pRow && !pColumn){lstr_RowColStatus = 'NoRowOrColumn'}
-	else if (pRow && !pColumn){lstr_RowColStatus = 'JustRow'}
-	else if (!pRow && pColumn){lstr_RowColStatus = 'JustColumn'}
-	else if (pRow && pColumn) {lstr_RowColStatus = 'RowAndColumn'}
-	else{}
-
-
-	switch (lstr_RowColStatus)
+	function fn_whatWasProvided(pRow,pColumn)
 	{
-		case 'NoRowOrColumn':
-			return new HeaderElement(name);
-		case 'JustRow':
-			return new HeaderElement(name);
-		case 'JustColumn':
-			return new HeaderElement(name);
-		case 'RowAndColumn':
-			return new HeaderElement(name);
-		default:
-			return;
-	}
-
-}
+		let lstr_RowColStatus;
+		
+		if(!pRow && !pColumn){lstr_RowColStatus = 'NoRowOrColumn'}
+		else if (pRow && !pColumn){lstr_RowColStatus = 'JustRow'}
+		else if (!pRow && pColumn){lstr_RowColStatus = 'JustColumn'}
+		else if (pRow && pColumn) {lstr_RowColStatus = 'RowAndColumn'}
+		else{}
 
 
-function fn_getName(pRow,pColumn)
-{
-			switch (whatWasProvided(pRow,pColumn))
+		switch (lstr_RowColStatus)// placeholder  - should probably do something useful
 		{
 			case 'NoRowOrColumn':
-				return '';
+				return 'NoRowOrColumn'
 			case 'JustRow':
-				return pRow;
+				return 'JustRow':
 			case 'JustColumn':
-				return pColumn;
+				return 'JustColumn';
 			case 'RowAndColumn':
-				return pRow+pColumn
+				return 'RowAndColumn';
 			default:
-				return '';
+				return;
 		}
-}
+
+	}
+
+
+	function fn_getName(pRow,pColumn)
+	{
+			switch (fn_whatWasProvided(pRow,pColumn))
+			{
+				case 'NoRowOrColumn':
+					return '';
+				case 'JustRow':
+					return pRow;
+				case 'JustColumn':
+					return pColumn;
+				case 'RowAndColumn':
+					return pRow+pColumn
+				default:
+					return '';
+			}
+	}
 
 	// Function to create an element class instance
 	function fn_createElementInstance(pType, pRow, pColumn, pText, pName)
@@ -202,35 +202,39 @@ function fn_getName(pRow,pColumn)
 		}
 	}
 
-	// Function to display description
-function fn_showDescription(pType, pRow, pColumn, pText) {
-    // Create the appropriate class instance dynamically
-    let elementInstance = fn_createElementInstance(pType, pRow, pColumn, pText, fn_getName(pRow,PColumn));
+		// Function to display description
+	function fn_showDescription(pType, pRow, pColumn, pText)
+	{
+		// Create the appropriate class instance dynamically
+		let elementInstance = fn_createElementInstance(pType, pRow, pColumn, pText, fn_getName(pRow,pColumn));
 
-    // Assuming elementInstance has a method get_strHTMLTemplate to generate HTML
-    let descriptionContent = elementInstance.fn_SubstituteVariables()
+		// Assuming elementInstance has a method get_strHTMLTemplate to generate HTML
+		let descriptionContent = elementInstance.fn_SubstituteVariables()
 
-    document.getElementById('description').innerHTML = descriptionContent;
+		document.getElementById('description').innerHTML = descriptionContent;
 
-    // Assuming areaElement is defined, highlight the area
-    // fn_highlightArea(areaElement); // Uncomment and use if areaElement is available
-}
-	function fn_highlightArea(areaElement) {
-		const coords = areaElement.coords.split(',');
-		const x1 = parseInt(coords[0]);
-		const y1 = parseInt(coords[1]);
-		const x2 = parseInt(coords[2]);
-		const y2 = parseInt(coords[3]);
-
-		const highlight = document.getElementById('highlightBox');
-		highlight.style.left = x1 + 'px';
-		highlight.style.top = y1 + 'px';
-		highlight.style.width = (x2 - x1) + 'px';
-		highlight.style.height = (y2 - y1) + 'px';
-		highlight.style.display = 'block';
+		// Assuming areaElement is defined, highlight the area
+		// fn_highlightArea(areaElement); // Uncomment and use if areaElement is available
 	}
 
-	function fn_hideHighlight() {
+	function fn_highlightArea(areaElement)
+	{
+			const coords = areaElement.coords.split(',');
+			const x1 = parseInt(coords[0]);
+			const y1 = parseInt(coords[1]);
+			const x2 = parseInt(coords[2]);
+			const y2 = parseInt(coords[3]);
+
+			const highlight = document.getElementById('highlightBox');
+			highlight.style.left = x1 + 'px';
+			highlight.style.top = y1 + 'px';
+			highlight.style.width = (x2 - x1) + 'px';
+			highlight.style.height = (y2 - y1) + 'px';
+			highlight.style.display = 'block';
+		}
+
+	function fn_hideHighlight()
+	{
 		document.getElementById('highlightBox').style.display = 'none';
 	}
 </script>
