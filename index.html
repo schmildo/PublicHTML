@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Version: 16 -->
+<!-- Version: 20 -->
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -14,42 +14,23 @@
     height: auto;
   }
 
-/* General styling for divs within STYLE_DESCRIPTION */
 .STYLE_DESCRIPTION > div {
-    margin-bottom: 16px;
-    display: block; /* Ensure the divs are block-level */
+    margin-bottom: 16px; /* Adjust the value as needed */
 }
 
-/* Styling for the new type and name box */
-.STYLE_TYPENAME {
-    border: 1px solid #bbb;
-    padding: 8px;
-    margin: 10px 0;
-    background-color: #f5f5f5; /* Subtle light color */
-    border-radius: 5px;
-    font-size: 0.9em; /* Slightly smaller text */
-    color: #333; /* Dark gray text */
-    display: inline-block; /* Fit width to content */
-    clear: both; /* Prevent side-by-side layout */
-}
-
-/* Styling for the data format area */
-.STYLE_DATAFORMAT {
-    border: 1px solid #bbb;
-    padding: 8px;
-    margin: 10px 0;
-    background-color: #e0e0e0; /* Slightly different subtle color */
-    border-radius: 5px;
-    font-size: 0.9em;
-    color: #333;
-    display: inline-block; /* Fit width to content */
-    clear: both; /* Prevent side-by-side layout */
-}
-
+/* Additional styling for specific elements */
 .STYLE_HEADING {
     font-size: 1.5em;
     font-weight: bold;
     display: block;
+}
+
+.STYLE_DATAFORMAT {
+    border: 1px solid #ddd;
+    padding: 10px;
+    margin: 10px 0;
+    display: inline-block;
+    background-color: #eaeaea;
 }
 
 .STYLE_COMMENT {
@@ -61,15 +42,23 @@
     box-shadow: 0 4px 8px rgba(0,0,0,0.1);
     background-color: #f9f9f9;
 }
-
-.STYLE_MOUSEOVER {
+  .STYLE_MOUSEOVER {
     border: 2px dashed red;
     position: absolute;
     pointer-events: none;
     z-index: 1000;
+  }
+/* Styling for the new type and name box */
+.STYLE_TYPENAME {
+    border: 1px solid #bbb;
+    padding: 8px;
+    margin: 10px 0;
+    display: inline-block;
+    background-color: #f5f5f5; /* Subtle light color */
+    border-radius: 5px;
+    font-size: 0.9em; /* Slightly smaller text */
+    color: #333; /* Dark gray text */
 }
-
-
 </style>
 
 
@@ -85,9 +74,12 @@
 </div>
 
 <map name="image-map">
-  <area coords="15,11,35,294" shape="rect" 
-        onmouseover="fn_showDescription('aDefault', '', 'Checkboxes', 'This is the checkbox stuff wher eyou do things.','this is the data format area'); fn_highlightArea(this);" 
-        onmouseout="fn_hideHighlight()">
+	<area coords="15,11,35,294" shape="rect" 
+        onmouseover="fn_showDescription('aDefault', '', 'Checkboxes', 'This is the checkbox stuff wher eyou do things.','this is the data format area'); fn_highlightArea(this);" onmouseout="fn_hideHighlight()">
+	<area coords="115,111,135,694" shape="rect" 
+		onmouseover="fn_showDescription('aDefault', 'goat', '', 'this is the goat row.','goats can be formatted too'); fn_highlightArea(this);" onmouseout="fn_hideHighlight()">
+	<area coords="515,311,135,400" shape="rect" 
+		onmouseover="fn_showDescription('aDefault', 'mrrow', 'mrcolumn', 'this is the cell thing','ah formating for this specific cell'); fn_highlightArea(this);" onmouseout="fn_hideHighlight()">
 </map>
 
 
@@ -117,16 +109,10 @@
         <table>
             <thead>
                 <tr>
-                    <th>Row</th>
-                    <th>Column</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
                     <td>{{REPLACE_ROW_NAME}}</td>
                     <td>{{REPLACE_COL_NAME}}</td>
                 </tr>
-            </tbody>
+            </thead>
         </table>
     </div>
     <div class='STYLE_DATAFORMAT'>{{REPLACE_DATAFORMAT}}</div>
@@ -164,9 +150,7 @@
 			parentContent = parentContent.replace('{{REPLACE_ROW_NAME}}', this.mRow);
 			parentContent = parentContent.replace('{{REPLACE_COL_NAME}}', this.mColumn);
 			parentContent = parentContent.replace('{{REPLACE_DATAFORMAT}}', this.mDataFormat);
-				parentContent = parentContent.replace('{{REPLACE_TYPE}}', this.mType);
-				parentContent = parentContent.replace('{{REPLACE_NAME}}', this.mName);
-			parentContent = parentContent.replace('{{STYLE_COMMENT}}', this.mText);
+			parentContent = parentContent.replace('{{STYLE_COMMENT}}', this.mType+this.mName+this.mText);
 
 			return parentContent;
 		}
