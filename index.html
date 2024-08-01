@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Version: 13 -->
+<!-- Version: 15 -->
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -48,7 +48,17 @@
     pointer-events: none;
     z-index: 1000;
   }
-
+/* Styling for the new type and name box */
+.STYLE_TYPENAME {
+    border: 1px solid #bbb;
+    padding: 8px;
+    margin: 10px 0;
+    display: inline-block;
+    background-color: #f5f5f5; /* Subtle light color */
+    border-radius: 5px;
+    font-size: 0.9em; /* Slightly smaller text */
+    color: #333; /* Dark gray text */
+}
 </style>
 
 
@@ -65,7 +75,7 @@
 
 <map name="image-map">
   <area coords="15,11,35,294" shape="rect" 
-        onmouseover="fn_showDescription('aDefault', 'rowey', 'columny', 'some text'); fn_highlightArea(this);" 
+        onmouseover="fn_showDescription('aDefault', '', 'Checkboxes', 'This is the checkbox stuff wher eyou do things.','this is the data format area'); fn_highlightArea(this);" 
         onmouseout="fn_hideHighlight()">
 </map>
 
@@ -79,37 +89,50 @@
 	// Base class for both rows and columns
 	class class_Root
 	{
-		constructor(pType, pRow, pColumn, pText, pName)
+		constructor(pType, pRow, pColumn, pText, pName,pDataFormat)
 		{
 			this.mType=pType;
 			this.mRow=pRow;
 			this.mColumn=pColumn;
 			this.mText=pText;
 			this.mName=pName;
+			this.mDataFormat=pDataFormat;
 		}
 
 		get_strHTMLTemplate() {
 			return `			
-				<div id="id_description" class="STYLE_DESCRIPTION">
-					<div class='STYLE_HEADING'>
-						<table>
-							<thead>
-								<tr>
-									<th>Row</th>
-									<th>Column</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr>
-									<td>{{REPLACE_ROW_NAME}}</td>
-									<td>{{REPLACE_COL_NAME}}</td>
-								</tr>
-							</tbody>
-						</table>
-					</div>
-					<div class='STYLE_DATAFORMAT'>{{REPLACE_DATAFORMAT}}</div>
-					<div class='STYLE_COMMENT'>{{STYLE_COMMENT}}</div>
-				</div>
+<div id="id_description" class="STYLE_DESCRIPTION">
+    <div class='STYLE_HEADING'>
+        <table>
+            <thead>
+                <tr>
+                    <th>Row</th>
+                    <th>Column</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{REPLACE_ROW_NAME}}</td>
+                    <td>{{REPLACE_COL_NAME}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class='STYLE_DATAFORMAT'>{{REPLACE_DATAFORMAT}}</div>
+  <div class='STYLE_TYPENAME'>
+        <table>
+            <tbody>
+                <tr>
+                    <td>Type: {{REPLACE_TYPE}}</td>
+                    <td>Name: {{REPLACE_NAME}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class='STYLE_COMMENT'>{{STYLE_COMMENT}}</div>
+  
+</div>
+
 				`;
 		}
 	}
@@ -117,28 +140,19 @@
 	// Specific types extending the base class
 	class class_Default extends class_Root
 	{
-		constructor(pType, pRow, pColumn, pText, pName)
+		constructor(pType, pRow, pColumn, pText, pName,pDataFormat)
 		{
-			super(pType, pRow, pColumn, pText, pName); // Call the parent constructor with both parameters
-			// Additional child-specific initialization
-			this.additionalData = `default class's version of ptext: ${pText}`; // Example of processing the data
+			super(pType, pRow, pColumn, pText, pName,pDataFormat); // Call the parent constructor with both parameters
 		}
 
 			fn_SubstituteVariables() {
 			// Call the parent class's renderContent method
 			let parentContent = super.get_strHTMLTemplate();
 
-			
-			//this.mType
-			//this.mRow
-			//this.mColumn
-			//this.mText
-			//this.mName
-
 			// Replace the placeholders with the specific content
 			parentContent = parentContent.replace('{{REPLACE_ROW_NAME}}', this.mRow);
 			parentContent = parentContent.replace('{{REPLACE_COL_NAME}}', this.mColumn);
-			parentContent = parentContent.replace('{{REPLACE_DATAFORMAT}}', 'this is supposed to be the data format');
+			parentContent = parentContent.replace('{{REPLACE_DATAFORMAT}}', this.mDataFormat);
 			parentContent = parentContent.replace('{{STYLE_COMMENT}}', this.mType+this.mName+this.mText);
 
 			return parentContent;
@@ -192,20 +206,20 @@
 	}
 
 
-	function fn_createElementInstance(pType, pRow, pColumn, pText, pName)
+	function fn_createElementInstance(pType, pRow, pColumn, pText, pName, pDataFormat)
 	{
 		switch (pType.toLowerCase())
 		{
 			case 'adefault':
-				return new class_Default(pType, pRow, pColumn, pText, pName)
+				return new class_Default(pType, pRow, pColumn, pText, pName,pDataFormat)
 			default:
-				return new class_Root(pType, pRow, pColumn, pText, pName);
+				return new class_Root(pType, pRow, pColumn, pText, pName,pDataFormat);
 		}
 	}
 
 
-function fn_showDescription(pType, pRow, pColumn, pText) {
-    let elementInstance = fn_createElementInstance(pType, pRow, pColumn, pText, fn_getName(pRow, pColumn));
+function fn_showDescription(pType, pRow, pColumn, pText, pDataFormat) {
+    let elementInstance = fn_createElementInstance(pType, pRow, pColumn, pText, fn_getName(pRow, pColumn),pDataFormat);
     let descriptionContent = elementInstance.fn_SubstituteVariables();
     document.getElementById('id_description').innerHTML = descriptionContent;
 }
