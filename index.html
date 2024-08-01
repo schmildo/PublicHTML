@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Version: 6 -->
+<!-- Version: 7 -->
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -101,7 +101,7 @@ STR_OUTPUT_HTML() {
                 </table>
             </div>
             <div class='STYLE_DATAFORMAT'>{{REPLACE_DATAFORMAT}}</div>
-            <div class='STYLE_COMMENT'>${this.name}</div>
+            <div class='STYLE_COMMENT'>{{STYLE_COMMENT}}</div>
         </div>
         `;
 }
@@ -117,7 +117,7 @@ STR_OUTPUT_HTML() {
 			const test1 = 'one';
 			const test2 = 'two';
 			const test3 = 'three';
-			const test4 = 'four';
+			const test4 = 'four->'+=${this.name};
 
 			// Replace the placeholders with the specific content
 			parentContent = parentContent.replace('{{REPLACE_ROW_NAME}}', test1);
