@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Version: 15 -->
+<!-- Version: 16 -->
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -15,15 +15,9 @@
   }
 
 /* General styling for divs within STYLE_DESCRIPTION */
-.STYLE_DESCRIPTION {
-    text-align: left; /* Ensures left alignment of the boxes */
-}
-
 .STYLE_DESCRIPTION > div {
     margin-bottom: 16px;
-    display: inline-block; /* Fit width to content */
-    vertical-align: top; /* Align top if boxes are inline-block */
-    width: auto; /* Allow boxes to fit content width */
+    display: block; /* Ensure the divs are block-level */
 }
 
 /* Styling for the new type and name box */
@@ -36,9 +30,7 @@
     font-size: 0.9em; /* Slightly smaller text */
     color: #333; /* Dark gray text */
     display: inline-block; /* Fit width to content */
-    vertical-align: top;
-    width: auto; /* Allow box to fit content width */
-    max-width: 100%; /* Prevent overflowing the parent container */
+    clear: both; /* Prevent side-by-side layout */
 }
 
 /* Styling for the data format area */
@@ -51,9 +43,7 @@
     font-size: 0.9em;
     color: #333;
     display: inline-block; /* Fit width to content */
-    vertical-align: top;
-    width: auto; /* Allow box to fit content width */
-    max-width: 100%; /* Prevent overflowing the parent container */
+    clear: both; /* Prevent side-by-side layout */
 }
 
 .STYLE_HEADING {
@@ -78,7 +68,6 @@
     pointer-events: none;
     z-index: 1000;
 }
-
 
 
 </style>
