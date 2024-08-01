@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Version: 10 -->
+<!-- Version: 6 -->
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -116,9 +116,9 @@
 	// Specific types extending the base class
 	class class_Default extends class_Root
 	{
-		constructor(aName, aData)
+		constructor(pType, pRow, pColumn, pText, pName)
 		{
-			super(aName, aData); // Call the parent constructor with both parameters
+			super(pType, pRow, pColumn, pText, pName); // Call the parent constructor with both parameters
 			// Additional child-specific initialization
 			this.additionalData = `Processed: ${data}`; // Example of processing the data
 		}
@@ -198,7 +198,7 @@ function fn_getName(pRow,pColumn)
 			case 'adefault':
 				return new class_Default(pType, pRow, pColumn, pText, pName)
 			default:
-				return new class_Root(pName);
+				return new class_Root(pType, pRow, pColumn, pText, pName);
 		}
 	}
 
@@ -208,7 +208,7 @@ function fn_showDescription(pType, pRow, pColumn, pText) {
     let elementInstance = fn_createElementInstance(pType, pRow, pColumn, pText, fn_getName(pRow,PColumn));
 
     // Assuming elementInstance has a method get_strHTMLTemplate to generate HTML
-    let descriptionContent = elementInstance.get_strHTMLTemplate();
+    let descriptionContent = elementInstance.fn_SubstituteVariables()
 
     document.getElementById('description').innerHTML = descriptionContent;
 
