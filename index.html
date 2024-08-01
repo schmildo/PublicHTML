@@ -5,23 +5,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Image Map with Descriptions</title>
-<style>
-  #description {
-    margin-top: 20px;
-    font-size: 1.2em;
-    border: 1px solid #ddd;
-    padding: 20px;
-    max-width: 100%;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    background-color: #f9f9f9;
-  }
 
-  .highlight {
-    border: 2px dashed red;
-    position: absolute;
-    pointer-events: none;
-    z-index: 1000;
-  }
+<style>
 
   img {
     position: relative;
@@ -29,188 +14,193 @@
     height: auto;
   }
 
-  .heading {
+#ID_DESCRIPTION > div {
+    margin-bottom: 16px; /* Adjust the value as needed */
+}
+
+/* Additional styling for specific elements */
+.STYLE_HEADING {
     font-size: 1.5em;
     font-weight: bold;
     display: block;
-    margin-bottom: 10px;
-  }
+}
 
-  .column {
-    font-style: italic;
-    display: inline;
-  }
-
-  .expected-format {
+.STYLE_DATAFORMAT {
     border: 1px solid #ddd;
     padding: 10px;
     margin: 10px 0;
     display: inline-block;
     background-color: #eaeaea;
+}
+
+.STYLE_COMMENT {
+    margin-top: 20px;
+    font-size: 1.2em;
+    border: 1px solid #ddd;
+    padding: 20px;
+    max-width: 100%;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    background-color: #f9f9f9;
+}
+  .STYLE_MOUSEOVER {
+    border: 2px dashed red;
+    position: absolute;
+    pointer-events: none;
+    z-index: 1000;
   }
+
 </style>
+
+
+
 </head>
 <body>
 
-<!-- Class Hierarchy:
-    TableElement
-    ├─ HeaderElement
-    ├─ DataElement
-    ├─ Specific Columns
-    │  ├─ CheckboxColumn
-    │  ├─ IDPassColumn
-    │  └─ StatusColumn
-    ├─ Specific Rows
-       ├─ StudentNameRow
-       └─ ExamDetailsRow
--->
 
 <!-- Image Map -->
 <div style="position: relative; display: inline-block;">
   <img src="HTML/ViewLogins.png" usemap="#image-map" alt="Map Image" id="mapImage">
-  <div class="highlight" id="highlightBox" style="display: none;"></div>
+  <div class="STYLE_MOUSEOVER" id="highlightBox" style="display: none;"></div>
 </div>
 
 <map name="image-map">
   <!-- Using provided coords for accuracy -->
-  <area coords="15,11,35,294" shape="rect" onmouseover="showDescription('header', 'Status', '', '', this)" onmouseout="hideHighlight()">
-  <area coords="42,0,108,341" shape="rect" onmouseover="showDescription('data', 'Student Name', '', 'John Doe', this)" onmouseout="hideHighlight()">
-  <area coords="632,1,857,324" shape="rect" onmouseover="showDescription('checkbox', '', '', '', this)" onmouseout="hideHighlight()">
-  <area coords="948,14,1027,327" shape="rect" onmouseover="showDescription('examdetails', '', 'IDPass', 'Exam details for a student.', this)" onmouseout="hideHighlight()">
+  <area coords="15,11,35,294" shape="rect" onmouseover="showDescription('test', 'rowey', 'columny', 'some text')" onmouseout="hideHighlight()">
 </map>
+
 
 <!-- Description Area -->
 <div id="description">Hover over an area to see the description here.</div>
 
+
+
 <script>
-// Base class for both rows and columns
-class TableElement {
-    constructor(name) {
-        this.name = name;
-    }
+	// Base class for both rows and columns
+	class TableElement {
+		constructor(name) {
+			this.name = name;
+		}
 
-    renderContent() {
-        return `<div class='expected-format'>Expected format: ${this.name}</div>Content for ${this.name}`;
-    }
+STR_OUTPUT_HTML() {
+    return `			
+        <div id="ID_DESCRIPTION">
+            <div class='STYLE_HEADING'>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Row</th>
+                            <th>Column</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>{{REPLACE_ROW_NAME}}</td>
+                            <td>{{REPLACE_COL_NAME}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class='STYLE_DATAFORMAT'>{{REPLACE_DATAFORMAT}}</div>
+            <div class='STYLE_COMMENT'>${this.name}</div>
+        </div>
+        `;
 }
+	}
 
-// Specific types extending the base class
-class HeaderElement extends TableElement {
-    renderContent() {
-        return `<div class='expected-format'>Expected format: Header - ${this.name}</div>Content for ${this.name} (Header)`;
-    }
-}
+	// Specific types extending the base class
+	class testElement extends TableElement {
+		STR_OUTPUT_HTML() {
+			// Call the parent class's renderContent method
+			let parentContent = super.STR_OUTPUT_HTML();
 
-class DataElement extends TableElement {
-    constructor(name, data) {
-        super(name);
-        this.data = data;
-    }
+			// Define the specific content to insert
+			const test1 = 'one';
+			const test2 = 'two';
+			const test3 = 'three';
+			const test4 = 'four';
 
-    renderContent() {
-        return `<div class='expected-format'>Expected format: Data - ${this.name}</div>Content for ${this.name}: ${this.data}`;
-    }
-}
+			// Replace the placeholders with the specific content
+			parentContent = parentContent.replace('{{REPLACE_ROW_NAME}}', test1);
+			parentContent = parentContent.replace('{{REPLACE_COL_NAME}}', test2);
+			parentContent = parentContent.replace('{{REPLACE_DATAFORMAT}}', test3);
+			parentContent = parentContent.replace('{{STYLE_COMMENT}}', test4);
 
-// Specific column and row examples
-class CheckboxColumn extends TableElement {
-    renderContent() {
-        return `<div class='expected-format'>Expected format: Checkbox selection</div>Content for Checkbox Column`;
-    }
-}
+			return parentContent;
+		}
+	}
 
-class IDPassColumn extends TableElement {
-    renderContent() {
-        return `<div class='expected-format'>Expected format: ID/Pass format</div>Content for ID/Pass Column: ID and Password information`;
-    }
-}
 
-class StatusColumn extends TableElement {
-    renderContent() {
-        return `<div class='expected-format'>Expected format: Status</div>Content for Status Column: Status details`;
-    }
-}
+	// Function to create an element class instance
+	function createElementInstance(type, name, data = '') {
+		switch (type.toLowerCase()) {
+			case 'test':
+				return new testElement(name)
+			case 'header':
+				return new HeaderElement(name);
+			case 'data':
+				return new DataElement(name, data);
+			case 'checkbox':
+				return new CheckboxColumn(name);
+			case 'idpass':
+				return new IDPassColumn(name);
+			case 'status':
+				return new StatusColumn(name);
+			case 'studentname':
+				return new StudentNameRow(name, data);
+			case 'examdetails':
+				return new ExamDetailsRow(name, data);
+			default:
+				return new TableElement(name);
+		}
+	}
 
-class StudentNameRow extends DataElement {
-    renderContent() {
-        return `<div class='expected-format'>Expected format: Student Name</div>Content for ${this.name}: ${this.data}`;
-    }
-}
+	// Function to display description
+	function showDescription(pType, pRow, pColumn, pText) {
+		//let descriptionContent = `<span class="heading">${pRow ? pRow : ''} - ${pColumn ? pColumn : ''}</span>`;
+		//let rowInstance;
+		//let columnInstance;
 
-class ExamDetailsRow extends DataElement {
-    renderContent() {
-        return `<div class='expected-format'>Expected format: Exam Details</div>Content for ${this.name}: ${this.data}`;
-    }
-}
+		// Create the appropriate row or column class instance dynamically
+		/*if (pRow) {
+			rowInstance = createElementInstance(type, pRow, pText);
+			descriptionContent += `<p>${rowInstance.STR_OUTPUT_HTML()}</p>`;
+		}
 
-// Function to create an element class instance
-function createElementInstance(type, name, data = '') {
-    switch (type.toLowerCase()) {
-        case 'header':
-            return new HeaderElement(name);
-        case 'data':
-            return new DataElement(name, data);
-        case 'checkbox':
-            return new CheckboxColumn(name);
-        case 'idpass':
-            return new IDPassColumn(name);
-        case 'status':
-            return new StatusColumn(name);
-        case 'studentname':
-            return new StudentNameRow(name, data);
-        case 'examdetails':
-            return new ExamDetailsRow(name, data);
-        default:
-            return new TableElement(name);
-    }
-}
+		if (pColumn) {
+			columnInstance = createElementInstance(type, pColumn, pText);
+			descriptionContent += `<p>${columnInstance.STR_OUTPUT_HTML()}</p>`;
+		}
 
-// Function to display description
-function showDescription(type, pRow, pColumn, pText, areaElement) {
-    let descriptionContent = `<span class="heading">${pRow ? pRow : ''} - ${pColumn ? pColumn : ''}</span>`;
-    let rowInstance;
-    let columnInstance;
+		// Add the provided text if neither row nor column are specified
+		if (!pRow && !pColumn && pText) {
+			descriptionContent += `<p>${pText}</p>`;
+		}
+*/
+		let descriptionContent = createElementInstance(pType,'mr name','mr data')
+		document.getElementById('description').innerHTML = descriptionContent;
 
-    // Create the appropriate row or column class instance dynamically
-    if (pRow) {
-        rowInstance = createElementInstance(type, pRow, pText);
-        descriptionContent += `<p>${rowInstance.renderContent()}</p>`;
-    }
+		// Highlight the area
+		highlightArea(areaElement);
+	}
 
-    if (pColumn) {
-        columnInstance = createElementInstance(type, pColumn, pText);
-        descriptionContent += `<p>${columnInstance.renderContent()}</p>`;
-    }
+	function highlightArea(areaElement) {
+		const coords = areaElement.coords.split(',');
+		const x1 = parseInt(coords[0]);
+		const y1 = parseInt(coords[1]);
+		const x2 = parseInt(coords[2]);
+		const y2 = parseInt(coords[3]);
 
-    // Add the provided text if neither row nor column are specified
-    if (!pRow && !pColumn && pText) {
-        descriptionContent += `<p>${pText}</p>`;
-    }
+		const highlight = document.getElementById('highlightBox');
+		highlight.style.left = x1 + 'px';
+		highlight.style.top = y1 + 'px';
+		highlight.style.width = (x2 - x1) + 'px';
+		highlight.style.height = (y2 - y1) + 'px';
+		highlight.style.display = 'block';
+	}
 
-    document.getElementById('description').innerHTML = descriptionContent;
-
-    // Highlight the area
-    highlightArea(areaElement);
-}
-
-function highlightArea(areaElement) {
-    const coords = areaElement.coords.split(',');
-    const x1 = parseInt(coords[0]);
-    const y1 = parseInt(coords[1]);
-    const x2 = parseInt(coords[2]);
-    const y2 = parseInt(coords[3]);
-
-    const highlight = document.getElementById('highlightBox');
-    highlight.style.left = x1 + 'px';
-    highlight.style.top = y1 + 'px';
-    highlight.style.width = (x2 - x1) + 'px';
-    highlight.style.height = (y2 - y1) + 'px';
-    highlight.style.display = 'block';
-}
-
-function hideHighlight() {
-    document.getElementById('highlightBox').style.display = 'none';
-}
+	function hideHighlight() {
+		document.getElementById('highlightBox').style.display = 'none';
+	}
 </script>
 
 </body>
