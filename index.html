@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Version: 12 -->
+<!-- Version: 13 -->
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -14,7 +14,7 @@
     height: auto;
   }
 
-#ID_DESCRIPTION > div {
+.STYLE_DESCRIPTION > div {
     margin-bottom: 16px; /* Adjust the value as needed */
 }
 
@@ -60,17 +60,18 @@
 <!-- Image Map -->
 <div style="position: relative; display: inline-block;">
   <img src="HTML/ViewLogins.png" usemap="#image-map" alt="Map Image" id="mapImage">
-  <div class="STYLE_MOUSEOVER" id="highlightBox" style="display: none;"></div>
+  <div class="STYLE_MOUSEOVER" id="id_highlightBox" style="display: none;"></div>
 </div>
 
 <map name="image-map">
-  <!-- Using provided coords for accuracy -->
-  <area coords="15,11,35,294" shape="rect" onmouseover="fn_showDescription('aDefault', 'rowey', 'columny', 'some text')" onmouseout="fn_hideHighlight()">
+  <area coords="15,11,35,294" shape="rect" 
+        onmouseover="fn_showDescription('aDefault', 'rowey', 'columny', 'some text'); fn_highlightArea(this);" 
+        onmouseout="fn_hideHighlight()">
 </map>
 
 
 <!-- Description Area -->
-<div id="description">Hover over an area to see the description here.</div>
+<div id="id_description" class="STYLE_DESCRIPTION">Hover over an area to see the description here.</div>
 
 
 
@@ -89,7 +90,7 @@
 
 		get_strHTMLTemplate() {
 			return `			
-				<div id="ID_DESCRIPTION">
+				<div id="id_description" class="STYLE_DESCRIPTION">
 					<div class='STYLE_HEADING'>
 						<table>
 							<thead>
@@ -211,7 +212,7 @@
 
 		let descriptionContent = elementInstance.fn_SubstituteVariables()
 
-		document.getElementById('description').innerHTML = descriptionContent;
+		document.getElementById('id_description').innerHTML = descriptionContent;
 
 
 	}
@@ -224,7 +225,7 @@
 			const x2 = parseInt(coords[2]);
 			const y2 = parseInt(coords[3]);
 
-			const highlight = document.getElementById('highlightBox');
+			const highlight = document.getElementById('id_highlightBox');
 			highlight.style.left = x1 + 'px';
 			highlight.style.top = y1 + 'px';
 			highlight.style.width = (x2 - x1) + 'px';
@@ -234,7 +235,7 @@
 
 	function fn_hideHighlight()
 	{
-		document.getElementById('highlightBox').style.display = 'none';
+		document.getElementById('id_highlightBox').style.display = 'none';
 	}
 </script>
 
