@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Version: 7 -->
+<!-- Version: 10 -->
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -65,7 +65,7 @@
 
 <map name="image-map">
   <!-- Using provided coords for accuracy -->
-  <area coords="15,11,35,294" shape="rect" onmouseover="showDescription('test', 'rowey', 'columny', 'some text')" onmouseout="hideHighlight()">
+  <area coords="15,11,35,294" shape="rect" onmouseover="fn_showDescription('aDefault', 'rowey', 'columny', 'some text')" onmouseout="fn_hideHighlight()">
 </map>
 
 
@@ -76,98 +76,146 @@
 
 <script>
 	// Base class for both rows and columns
-	class TableElement {
-		constructor(name) {
-			this.name = name;
+	class class_Root
+	{
+		constructor(pType, pRow, pColumn, pText, pName)
+		{
+			this.mType=pType;
+			this.mRow=pRow;
+			this.mColumn=pColumn;
+			this.mText=pText;
+			this.mName=pName;
 		}
 
-STR_OUTPUT_HTML() {
-    return `			
-        <div id="ID_DESCRIPTION">
-            <div class='STYLE_HEADING'>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Row</th>
-                            <th>Column</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>{{REPLACE_ROW_NAME}}</td>
-                            <td>{{REPLACE_COL_NAME}}</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div class='STYLE_DATAFORMAT'>{{REPLACE_DATAFORMAT}}</div>
-            <div class='STYLE_COMMENT'>{{STYLE_COMMENT}}</div>
-        </div>
-        `;
-}
+		get_strHTMLTemplate() {
+			return `			
+				<div id="ID_DESCRIPTION">
+					<div class='STYLE_HEADING'>
+						<table>
+							<thead>
+								<tr>
+									<th>Row</th>
+									<th>Column</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>{{REPLACE_ROW_NAME}}</td>
+									<td>{{REPLACE_COL_NAME}}</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					<div class='STYLE_DATAFORMAT'>{{REPLACE_DATAFORMAT}}</div>
+					<div class='STYLE_COMMENT'>{{STYLE_COMMENT}}</div>
+				</div>
+				`;
+		}
 	}
 
 	// Specific types extending the base class
-	class testElement extends TableElement {
-		STR_OUTPUT_HTML() {
-			// Call the parent class's renderContent method
-			let parentContent = super.STR_OUTPUT_HTML();
+	class class_Default extends class_Root
+	{
+		constructor(aName, aData)
+		{
+			super(aName, aData); // Call the parent constructor with both parameters
+			// Additional child-specific initialization
+			this.additionalData = `Processed: ${data}`; // Example of processing the data
+		}
 
-			// Define the specific content to insert
-			const test1 = 'one';
-			const test2 = 'two';
-			const test3 = 'three';
-			const test4 = `four->${this.name}`;
+			fn_SubstituteVariables() {
+			// Call the parent class's renderContent method
+			let parentContent = super.get_strHTMLTemplate();
+
+			
+			//this.mType
+			//this.mRow
+			//this.mColumn
+			//this.mText
+			//this.mName
 
 			// Replace the placeholders with the specific content
-			parentContent = parentContent.replace('{{REPLACE_ROW_NAME}}', test1);
-			parentContent = parentContent.replace('{{REPLACE_COL_NAME}}', test2);
+			parentContent = parentContent.replace('{{REPLACE_ROW_NAME}}', this.mRow);
+			parentContent = parentContent.replace('{{REPLACE_COL_NAME}}', this.mColumn);
 			parentContent = parentContent.replace('{{REPLACE_DATAFORMAT}}', test3);
-			parentContent = parentContent.replace('{{STYLE_COMMENT}}', test4);
+			parentContent = parentContent.replace('{{STYLE_COMMENT}}', this.mType+this.mName+this.mText);
 
 			return parentContent;
 		}
 	}
 
 
-	// Function to create an element class instance
-	function createElementInstance(type, name, data = '') {
-		switch (type.toLowerCase()) {
-			case 'test':
-				return new testElement(name)
-			case 'header':
-				return new HeaderElement(name);
-			case 'data':
-				return new DataElement(name, data);
-			case 'checkbox':
-				return new CheckboxColumn(name);
-			case 'idpass':
-				return new IDPassColumn(name);
-			case 'status':
-				return new StatusColumn(name);
-			case 'studentname':
-				return new StudentNameRow(name, data);
-			case 'examdetails':
-				return new ExamDetailsRow(name, data);
+function fn_whatWasProvided(pRow,pColumn)
+{
+	let lstr_RowColStatus;
+	
+	if(!pRow && !pColumn){lstr_RowColStatus = 'NoRowOrColumn'}
+	else if (pRow && !pColumn){lstr_RowColStatus = 'JustRow'}
+	else if (!pRow && pColumn){lstr_RowColStatus = 'JustColumn'}
+	else if (pRow && pColumn) {lstr_RowColStatus = 'RowAndColumn'}
+	else{}
+
+
+	switch (lstr_RowColStatus)
+	{
+		case 'NoRowOrColumn':
+			return new HeaderElement(name);
+		case 'JustRow':
+			return new HeaderElement(name);
+		case 'JustColumn':
+			return new HeaderElement(name);
+		case 'RowAndColumn':
+			return new HeaderElement(name);
+		default:
+			return;
+	}
+
+}
+
+
+function fn_getName(pRow,pColumn)
+{
+			switch (whatWasProvided(pRow,pColumn))
+		{
+			case 'NoRowOrColumn':
+				return '';
+			case 'JustRow':
+				return pRow;
+			case 'JustColumn':
+				return pColumn;
+			case 'RowAndColumn':
+				return pRow+pColumn
 			default:
-				return new TableElement(name);
+				return '';
+		}
+}
+
+	// Function to create an element class instance
+	function fn_createElementInstance(pType, pRow, pColumn, pText, pName)
+	{
+		switch (pType.toLowerCase())
+		{
+			case 'adefault':
+				return new class_Default(pType, pRow, pColumn, pText, pName)
+			default:
+				return new class_Root(pName);
 		}
 	}
 
 	// Function to display description
-function showDescription(pType, pRow, pColumn, pText) {
+function fn_showDescription(pType, pRow, pColumn, pText) {
     // Create the appropriate class instance dynamically
-    let elementInstance = createElementInstance(pType, 'mr name', 'mr data');
+    let elementInstance = fn_createElementInstance(pType, pRow, pColumn, pText, fn_getName(pRow,PColumn));
 
-    // Assuming elementInstance has a method STR_OUTPUT_HTML to generate HTML
-    let descriptionContent = elementInstance.STR_OUTPUT_HTML();
+    // Assuming elementInstance has a method get_strHTMLTemplate to generate HTML
+    let descriptionContent = elementInstance.get_strHTMLTemplate();
 
     document.getElementById('description').innerHTML = descriptionContent;
 
     // Assuming areaElement is defined, highlight the area
-    // highlightArea(areaElement); // Uncomment and use if areaElement is available
+    // fn_highlightArea(areaElement); // Uncomment and use if areaElement is available
 }
-	function highlightArea(areaElement) {
+	function fn_highlightArea(areaElement) {
 		const coords = areaElement.coords.split(',');
 		const x1 = parseInt(coords[0]);
 		const y1 = parseInt(coords[1]);
@@ -182,7 +230,7 @@ function showDescription(pType, pRow, pColumn, pText) {
 		highlight.style.display = 'block';
 	}
 
-	function hideHighlight() {
+	function fn_hideHighlight() {
 		document.getElementById('highlightBox').style.display = 'none';
 	}
 </script>
