@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Version: 5 -->
+<!-- Version: 6 -->
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -155,34 +155,18 @@ STR_OUTPUT_HTML() {
 	}
 
 	// Function to display description
-	function showDescription(pType, pRow, pColumn, pText) {
-		//let descriptionContent = `<span class="heading">${pRow ? pRow : ''} - ${pColumn ? pColumn : ''}</span>`;
-		//let rowInstance;
-		//let columnInstance;
+function showDescription(pType, pRow, pColumn, pText) {
+    // Create the appropriate class instance dynamically
+    let elementInstance = createElementInstance(pType, 'mr name', 'mr data');
 
-		// Create the appropriate row or column class instance dynamically
-		/*if (pRow) {
-			rowInstance = createElementInstance(type, pRow, pText);
-			descriptionContent += `<p>${rowInstance.STR_OUTPUT_HTML()}</p>`;
-		}
+    // Assuming elementInstance has a method STR_OUTPUT_HTML to generate HTML
+    let descriptionContent = elementInstance.STR_OUTPUT_HTML();
 
-		if (pColumn) {
-			columnInstance = createElementInstance(type, pColumn, pText);
-			descriptionContent += `<p>${columnInstance.STR_OUTPUT_HTML()}</p>`;
-		}
+    document.getElementById('description').innerHTML = descriptionContent;
 
-		// Add the provided text if neither row nor column are specified
-		if (!pRow && !pColumn && pText) {
-			descriptionContent += `<p>${pText}</p>`;
-		}
-*/
-		let descriptionContent = createElementInstance(pType,'mr name','mr data')
-		document.getElementById('description').innerHTML = descriptionContent;
-
-		// Highlight the area
-		highlightArea(areaElement);
-	}
-
+    // Assuming areaElement is defined, highlight the area
+    // highlightArea(areaElement); // Uncomment and use if areaElement is available
+}
 	function highlightArea(areaElement) {
 		const coords = areaElement.coords.split(',');
 		const x1 = parseInt(coords[0]);
