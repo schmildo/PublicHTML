@@ -85,40 +85,41 @@
 </div>
 
 <map name="image-map">
-	<area coords="15,11,35,294" shape="rect" onmouseover="fn_showDescription('aDefault', '', 'Checkboxes', 'A quick fox jumps.','is this a formatting issue'); fn_highlightArea(this);" onmouseout="fn_hideHighlight()">
-	<area coords="42,0,108,341" shape="rect" onmouseover="fn_showDescription('aDefault', '', 'Id & Password', 'Water flows swiftly.','(name) (date)'); fn_highlightArea(this);" onmouseout="fn_hideHighlight()">
-	<area coords="632,1,857,324" shape="rect" onmouseover="fn_showDescription('aDefault', '', 'Devices', 'Blue sky is clear.','(email) (code)'); fn_highlightArea(this);" onmouseout="fn_hideHighlight()">
-	<area coords="948,14,1027,327" shape="rect" onmouseover="fn_showDescription('aDefault', '', 'Logged Out', 'Cats love to nap.','(key) (token)'); fn_highlightArea(this);" onmouseout="fn_hideHighlight()">
-	<area coords="1041,36,1150,317" shape="rect" onmouseover="fn_showDescription('aDefault', '', 'Did not attend', 'Music soothes minds.','(auth) (pin)'); fn_highlightArea(this);" onmouseout="fn_hideHighlight()">
+
+	<area coords="15,11,35,294" shape="rect" data-default-format="my checkbox format" onmouseover="fn_showDescription('aDefault', '', 'Checkboxes', 'A quick fox jumps.', this)">
+	<area coords="42,0,108,341" shape="rect"  data-default-format="my idpass format" onmouseover="fn_showDescription('aDefault', '', 'Id & Password', 'Water flows swiftly.', this)">
+	<area coords="632,1,857,324" shape="rect"  data-default-format="my device format" onmouseover="fn_showDescription('aDefault', '', 'Devices', 'Blue sky is clear.', this)">
+	<area coords="948,14,1027,327" shape="rect"  data-default-format="my loggedout format" onmouseover="fn_showDescription('aDefault', '', 'Logged Out', 'Cats love to nap.', this)">
+	<area coords="1041,36,1150,317" shape="rect"  data-default-format="my didntotattendthing format" onmouseover="fn_showDescription('aDefault', '', 'Did not attend', 'Music soothes minds.', this)">
 	
-	<area coords="119,8,242,35" shape="rect" onmouseover="fn_showDescription('aDefault', 'row6', 'col6', 'Mountains stand tall.','(host) (port)'); fn_highlightArea(this);" onmouseout="fn_hideHighlight()">
-	<area coords="872,0,936,36" shape="rect" onmouseover="fn_showDescription('aDefault', 'row7', 'col7', 'Books open worlds.','(path) (query)'); fn_highlightArea(this);" onmouseout="fn_hideHighlight()">
-	<area coords="276,5,342,37" shape="rect" onmouseover="fn_showDescription('aDefault', 'row8', 'col8', 'Stars twinkle bright.','(ip) (mask)'); fn_highlightArea(this);" onmouseout="fn_hideHighlight()">
-	<area coords="115,63,225,83" shape="rect" onmouseover="fn_showDescription('aDefault', 'row9', 'col9', 'Dreams fuel goals.','(city) (state)'); fn_highlightArea(this);" onmouseout="fn_hideHighlight()">
-	<area coords="118,235,209,261" shape="rect" onmouseover="fn_showDescription('aDefault', 'row10', 'col10', 'Rain brings life.','(zip) (area)'); fn_highlightArea(this);" onmouseout="fn_hideHighlight()">
-	<area coords="116,42,221,59" shape="rect" onmouseover="fn_showDescription('aDefault', 'row11', 'col11', 'Sunrise is golden.','(base) (ext)'); fn_highlightArea(this);" onmouseout="fn_hideHighlight()">
-	<area coords="114,155,211,174" shape="rect" onmouseover="fn_showDescription('aDefault', 'row13', 'col13', 'Wind whispers softly.','(prod) (id)'); fn_highlightArea(this);" onmouseout="fn_hideHighlight()">
-	<area coords="118,208,211,230" shape="rect" onmouseover="fn_showDescription('aDefault', 'row14', 'col14', 'Flowers bloom brightly.','(tag) (attr)'); fn_highlightArea(this);" onmouseout="fn_hideHighlight()">
-	<area coords="117,264,212,285" shape="rect" onmouseover="fn_showDescription('aDefault', 'row15', 'col15', 'Chocolate is sweet.','(spec) (rate)'); fn_highlightArea(this);" onmouseout="fn_hideHighlight()">
-	<area coords="112,177,199,199" shape="rect" onmouseover="fn_showDescription('aDefault', 'row17', 'col17', 'Ocean waves crash.','(user) (pwd)'); fn_highlightArea(this);" onmouseout="fn_hideHighlight()">
-	<area coords="115,289,201,309" shape="rect" onmouseover="fn_showDescription('aDefault', 'row18', 'col18', 'Time flies fast.','(sys) (ver)'); fn_highlightArea(this);" onmouseout="fn_hideHighlight()">
-	<area coords="870,121,935,140" shape="rect" onmouseover="fn_showDescription('aDefault', 'row19', 'col19', 'Lights twinkle.','(path) (type)'); fn_highlightArea(this);" onmouseout="fn_hideHighlight()">
-	<area coords="869,45,935,87" shape="rect" onmouseover="fn_showDescription('aDefault', 'row20', 'col20', 'Coffee is hot.','(sess) (id)'); fn_highlightArea(this);" onmouseout="fn_hideHighlight()">
-	<area coords="867,215,935,256" shape="rect" onmouseover="fn_showDescription('aDefault', 'row21', 'col21', 'Winter is cold.','(proj) (desc)'); fn_highlightArea(this);" onmouseout="fn_hideHighlight()">
-	<area coords="880,99,925,118" shape="rect" onmouseover="fn_showDescription('aDefault', 'row22', 'col22', 'Nature is beautiful.','(env) (key)'); fn_highlightArea(this);" onmouseout="fn_hideHighlight()">
-	<area coords="868,154,937,203" shape="rect" onmouseover="fn_showDescription('aDefault', 'row23', 'col23', 'Bread is baked.','(name) (value)'); fn_highlightArea(this);" onmouseout="fn_hideHighlight()">
-	<area coords="869,267,937,314" shape="rect" onmouseover="fn_showDescription('aDefault', 'row24', 'col24', 'Apples are tasty.','(cfg) (opt)'); fn_highlightArea(this);" onmouseout="fn_hideHighlight()">
-	<area coords="275,42,348,63" shape="rect" onmouseover="fn_showDescription('aDefault', 'row25', 'col25', 'Leaves fall down.','(dir) (file)'); fn_highlightArea(this);" onmouseout="fn_hideHighlight()">
-	<area coords="272,213,348,231" shape="rect" onmouseover="fn_showDescription('aDefault', 'row26', 'col26', 'Snow is white.','(term) (cond)'); fn_highlightArea(this);" onmouseout="fn_hideHighlight()">
-	<area coords="274,158,344,177" shape="rect" onmouseover="fn_showDescription('aDefault', 'row27', 'col27', 'Milk is refreshing.','(src) (dest)'); fn_highlightArea(this);" onmouseout="fn_hideHighlight()">
-	<area coords="266,266,348,311" shape="rect" onmouseover="fn_showDescription('aDefault', 'row28', 'col28', 'Sunsets are stunning.','(cmd) (args)'); fn_highlightArea(this);" onmouseout="fn_hideHighlight()">
-	<area coords="283,68,336,83" shape="rect" onmouseover="fn_showDescription('aDefault', 'row29', 'col29', 'Fruit is healthy.','(lang) (loc)'); fn_highlightArea(this);" onmouseout="fn_hideHighlight()">
-	<area coords="276,237,343,258" shape="rect" onmouseover="fn_showDescription('aDefault', 'row31', 'col31', 'Cars drive fast.','(field) (val)'); fn_highlightArea(this);" onmouseout="fn_hideHighlight()">
+	<area coords="119,8,242,35" shape="rect" onmouseover="fn_showDescription('aDefault', 'row6', 'col6', 'Mountains stand tall.', this)">
+	<area coords="872,0,936,36" shape="rect" onmouseover="fn_showDescription('aDefault', 'row7', 'col7', 'Books open worlds.', this)">
+	<area coords="276,5,342,37" shape="rect" onmouseover="fn_showDescription('aDefault', 'row8', 'col8', 'Stars twinkle bright.', this)">
+	<area coords="115,63,225,83" shape="rect" onmouseover="fn_showDescription('aDefault', 'row9', 'col9', 'Dreams fuel goals.', this)">
+	<area coords="118,235,209,261" shape="rect" onmouseover="fn_showDescription('aDefault', 'row10', 'col10', 'Rain brings life.', this)">
+	<area coords="116,42,221,59" shape="rect" onmouseover="fn_showDescription('aDefault', 'row11', 'col11', 'Sunrise is golden.', this)">
+	<area coords="114,155,211,174" shape="rect" onmouseover="fn_showDescription('aDefault', 'row13', 'col13', 'Wind whispers softly.', this)">
+	<area coords="118,208,211,230" shape="rect" onmouseover="fn_showDescription('aDefault', 'row14', 'col14', 'Flowers bloom brightly.', this)">
+	<area coords="117,264,212,285" shape="rect" onmouseover="fn_showDescription('aDefault', 'row15', 'col15', 'Chocolate is sweet.', this)">
+	<area coords="112,177,199,199" shape="rect" onmouseover="fn_showDescription('aDefault', 'row17', 'col17', 'Ocean waves crash.', this)">
+	<area coords="115,289,201,309" shape="rect" onmouseover="fn_showDescription('aDefault', 'row18', 'col18', 'Time flies fast.', this)">
+	<area coords="870,121,935,140" shape="rect" onmouseover="fn_showDescription('aDefault', 'row19', 'col19', 'Lights twinkle.', this)">
+	<area coords="869,45,935,87" shape="rect" onmouseover="fn_showDescription('aDefault', 'row20', 'col20', 'Coffee is hot.', this)">
+	<area coords="867,215,935,256" shape="rect" onmouseover="fn_showDescription('aDefault', 'row21', 'col21', 'Winter is cold.', this)">
+	<area coords="880,99,925,118" shape="rect" onmouseover="fn_showDescription('aDefault', 'row22', 'col22', 'Nature is beautiful.', this)">
+	<area coords="868,154,937,203" shape="rect" onmouseover="fn_showDescription('aDefault', 'row23', 'col23', 'Bread is baked.', this)">
+	<area coords="869,267,937,314" shape="rect" onmouseover="fn_showDescription('aDefault', 'row24', 'col24', 'Apples are tasty.', this)">
+	<area coords="275,42,348,63" shape="rect" onmouseover="fn_showDescription('aDefault', 'row25', 'col25', 'Leaves fall down.', this)">
+	<area coords="272,213,348,231" shape="rect" onmouseover="fn_showDescription('aDefault', 'row26', 'col26', 'Snow is white.', this)">
+	<area coords="274,158,344,177" shape="rect" onmouseover="fn_showDescription('aDefault', 'row27', 'col27', 'Milk is refreshing.', this)">
+	<area coords="266,266,348,311" shape="rect" onmouseover="fn_showDescription('aDefault', 'row28', 'col28', 'Sunsets are stunning.', this)">
+	<area coords="283,68,336,83" shape="rect" onmouseover="fn_showDescription('aDefault', 'row29', 'col29', 'Fruit is healthy.', this)">
+	<area coords="276,237,343,258" shape="rect" onmouseover="fn_showDescription('aDefault', 'row31', 'col31', 'Cars drive fast.', this)">
 	
-	<area coords="114,98,214,119" shape="rect" onmouseover="fn_showDescription('aDefault', 'billy franks', 'Student Name', 'Fire warms us.','(time) (zone)'); fn_highlightArea(this);" onmouseout="fn_hideHighlight()">
-	<area coords="116,123,251,142" shape="rect" onmouseover="fn_showDescription('aDefault', 'billy franks', 'Student Name', 'Laughter is contagious.','(code) (ref)'); fn_highlightArea(this);" onmouseout="fn_hideHighlight()">
-	<area coords="283,127,333,138" shape="rect" onmouseover="fn_showDescription('aDefault', 'billy franks', 'Status', 'Ice cream melts.','(src) (type)'); fn_highlightArea(this);" onmouseout="fn_hideHighlight()">
-	<area coords="271,101,350,121" shape="rect" onmouseover="fn_showDescription('aDefault', 'billy franks', 'Status', 'Rivers flow wide.','(prop) (data)'); fn_highlightArea(this);" onmouseout="fn_hideHighlight()">
+	<area coords="114,98,214,119" shape="rect" onmouseover="fn_showDescription('aDefault', 'billy franks', 'Student Name', 'Fire warms us.', this)">
+	<area coords="116,123,251,142" shape="rect" onmouseover="fn_showDescription('aDefault', 'billy franks', 'Student Name', 'Laughter is contagious.', this)">
+	<area coords="283,127,333,138" shape="rect" onmouseover="fn_showDescription('aDefault', 'billy franks', 'Status', 'Ice cream melts.', this)">
+	<area coords="271,101,350,121" shape="rect" onmouseover="fn_showDescription('aDefault', 'billy franks', 'Status', 'Rivers flow wide.', this)">	
 </map>
 
 
@@ -131,6 +132,9 @@
 
 
 <script>
+	const gColumnFormats = {}; //global variable to store the various column formats
+
+	
 	// Base class for both rows and columns
 	class class_Root
 	{
@@ -259,14 +263,51 @@
 	}
 
 
-function fn_showDescription(pType, pRow, pColumn, pText, pDataFormat) {
-    let elementInstance = fn_createElementInstance(pType, pRow, pColumn, pText, fn_getName(pRow, pColumn),pDataFormat);
-    let descriptionContent = elementInstance.fn_SubstituteVariables();
-    document.getElementById('id_description').innerHTML = descriptionContent;
+function fn_showDescription(pType, pRow, pColumn, pText, pthis_Area)
+{
+	const lFormat = fn_getFormat(pColumn, pthis_Area);
+	let elementInstance = fn_createElementInstance(pType, pRow, pColumn, pText, fn_getName(pRow, pColumn),lFormat);
+	let descriptionContent = elementInstance.fn_SubstituteVariables();
+	document.getElementById('id_description').innerHTML = descriptionContent;
+	
+	// Highlight the area
+	fn_highlightArea(pthis_Area);
+	
+	// Add event listener to hide highlight on mouseout
+	pthis_Area.onmouseout = fn_hideHighlight;
 }
 
-function fn_highlightArea(areaElement) {
-    const coords = areaElement.coords.split(',');
+
+
+
+
+	
+function fn_getFormat(pColumn, pthis_Area) {
+    let lFormat;
+
+    switch (true) {
+        case !!pthis_Area.dataset.defaultFormat:
+            lFormat = pthis_Area.dataset.defaultFormat;
+            gColumnFormats[pColumn] = lFormat; // Save the default format
+            break; // Set the default format
+
+        case !!gColumnFormats[pColumn]:
+            lFormat = gColumnFormats[pColumn];
+            break; // Use the default format if no override
+
+        case !!pthis_Area.dataset.overrideFormat:
+            lFormat = pthis_Area.dataset.overrideFormat;
+            break; // Override the format
+
+        default:
+            lFormat = 'defaultFormat'; // Your predefined default value
+            break; // Use predefined default format
+    }
+
+    return lFormat;
+}
+function fn_highlightArea(pthis_Area) {
+    const coords = pthis_Area.coords.split(',');
     const x1 = parseInt(coords[0]);
     const y1 = parseInt(coords[1]);
     const x2 = parseInt(coords[2]);
