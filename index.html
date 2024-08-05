@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <!-- Version: 31 -->
 <html lang="en">
@@ -69,7 +70,28 @@
     z-index: 1000;
 }
 
-
+        #content {
+            display: block;
+        }
+        #blankMessage {
+            display: none;
+            text-align: center;
+            font-size: 2em;
+            margin-top: 20%;
+        }
+  .debug-highlight {
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0.2); /* Subtle dark overlay */
+    pointer-events: none;
+    z-index: 999; /* Below the STYLE_MOUSEOVER z-index */
+  }
+  
+    .debug-description {
+    font-family: monospace;
+    font-size: 0.8em;
+    color: #f00; /* Red color for debug information */
+    margin-top: 10px;
+  }
 </style>
 
 
@@ -77,14 +99,14 @@
 </head>
 <body>
 
+<div id="content">
+	<!-- Image Map -->
+	<div style="position: relative; display: inline-block;">
+	  <img src="HTML/ViewLogins.png" usemap="#image-map" alt="Map Image" id="mapImage">
+	  <div class="STYLE_MOUSEOVER" id="id_highlightBox" style="display: none;"></div>
+	</div>
 
-<!-- Image Map -->
-<div style="position: relative; display: inline-block;">
-  <img src="HTML/ViewLogins.png" usemap="#image-map" alt="Map Image" id="mapImage">
-  <div class="STYLE_MOUSEOVER" id="id_highlightBox" style="display: none;"></div>
-</div>
-
-<map name="image-map">
+	<map name="image-map">
 
 		<area coords="15,11,35,294" shape="rect" data-default-format="my checkbox format" onmouseover="fn_showDescription('aDefault', '', 'Checkboxes', 'A quick fox jumps.', this)">
 	<area coords="42,0,108,341" shape="rect"  data-default-format="my idpass format" onmouseover="fn_showDescription('aDefault', '', 'Id & Password', 'Water flows swiftly.', this)">
@@ -93,7 +115,7 @@
 	<area coords="1041,36,1150,317" shape="rect"  data-default-format="my didntotattendthing format" onmouseover="fn_showDescription('aDefault', '', 'Did not attend', 'Music soothes minds.', this)">
 	<area coords="119,8,242,35" shape="rect" data-default-format="kickass name column format" onmouseover="fn_showDescription('aDefault', 'headingrow', 'mySuperNameColumn', 'Mountains stand tall.', this)">
 	<area coords="872,0,936,36" shape="rect" onmouseover="fn_showDescription('aDefault', 'row7', 'col7', 'Books open worlds.', this)">
-	<area coords="276,5,342,37" shape="rect" onmouseover="fn_showDescription('aDefault', 'row8', 'col8', 'Stars twinkle bright, this)">
+	<area coords="276,5,342,37" shape="rect" onmouseover="fn_showDescription('aDefault', 'row8', 'col8', 'Stars twinkle bright', this)">
 	<area coords="115,63,225,83" shape="rect" onmouseover="fn_showDescription('aDefault', 'row9', 'mySuperNameColumn', 'Dreams fuel goals.', this)">
 	<area coords="118,235,209,261" shape="rect" onmouseover="fn_showDescription('aDefault', 'row10', 'col10', 'Rain brings life.', this)">
 	<area coords="116,42,221,59" shape="rect" onmouseover="fn_showDescription('aDefault', 'row11', 'mySuperNameColumn', 'Sunrise is golden.', this)">
@@ -119,15 +141,18 @@
 	<area coords="116,123,251,142" shape="rect" onmouseover="fn_showDescription('aDefault', 'billy franks', 'mySuperNameColumn', 'Laughter is contagious.', this)">
 	<area coords="283,127,333,138" shape="rect" onmouseover="fn_showDescription('aDefault', 'billy franks', 'Status', 'Ice cream melts.', this)">
 	<area coords="271,101,350,121" shape="rect" onmouseover="fn_showDescription('aDefault', 'billy franks', 'Status', 'Rivers flow wide.', this)">
-</map>
+	</map>
 
 
 
 
 
-<!-- Description Area -->
-<div id="id_description" class="STYLE_DESCRIPTION">Hover over an area to see the description here.</div>
+	<!-- Description Area -->
+	<div id="id_description" class="STYLE_DESCRIPTION">Hover over an area to see the description here.</div>
 
+</div>
+
+<div id="blankMessage">Please resize the window to restore the content.</div>
 
 
 <script>
@@ -261,26 +286,6 @@
 		}
 	}
 
-
-function fn_showDescription(pType, pRow, pColumn, pText, pthis_Area)
-{
-	const lFormat = fn_getFormat(pColumn, pthis_Area);
-	let elementInstance = fn_createElementInstance(pType, pRow, pColumn, pText, fn_getName(pRow, pColumn),lFormat);
-	let descriptionContent = elementInstance.fn_SubstituteVariables();
-	document.getElementById('id_description').innerHTML = descriptionContent;
-	
-	// Highlight the area
-	fn_highlightArea(pthis_Area);
-	
-	// Add event listener to hide highlight on mouseout
-	pthis_Area.onmouseout = fn_hideHighlight;
-}
-
-
-
-
-
-	
 function fn_getFormat(pColumn, pthis_Area) {
     let lFormat;
 
@@ -305,18 +310,49 @@ function fn_getFormat(pColumn, pthis_Area) {
 
     return lFormat;
 }
-function fn_highlightArea(pthis_Area) {
-    const coords = pthis_Area.coords.split(',');
-    const x1 = parseInt(coords[0]);
-    const y1 = parseInt(coords[1]);
-    const x2 = parseInt(coords[2]);
-    const y2 = parseInt(coords[3]);
 
+function fn_showDescription(pType, pRow, pColumn, pText, pthis_Area) {
+    const lFormat = fn_getFormat(pColumn, pthis_Area);
+    let elementInstance = fn_createElementInstance(pType, pRow, pColumn, pText, fn_getName(pRow, pColumn), lFormat);
+    let descriptionContent = elementInstance.fn_SubstituteVariables();
+
+    // Add debug information if in debug mode
+    if (isDebugMode) {
+        const lineNumber = getLineNumber(pthis_Area);
+        descriptionContent += `<div class="debug-description">HTML Line Number: ${lineNumber}</div>`;
+    }
+
+    document.getElementById('id_description').innerHTML = descriptionContent;
+
+    // Highlight the area
+    fn_highlightArea(pthis_Area);
+
+    // Add event listener to hide highlight on mouseout
+    pthis_Area.onmouseout = fn_hideHighlight;
+}
+
+
+
+
+
+	
+
+
+function fn_highlightArea(pthis_Area) {
+    const img = document.getElementById('mapImage');
     const highlight = document.getElementById('id_highlightBox');
-    highlight.style.left = x1 + 'px';
-    highlight.style.top = y1 + 'px';
-    highlight.style.width = (x2 - x1) + 'px';
-    highlight.style.height = (y2 - y1) + 'px';
+    const { scaleX, scaleY } = getScalingFactors(img);
+
+    const coords = pthis_Area.coords.split(',').map(Number);
+    const x1 = coords[0] * scaleX;
+    const y1 = coords[1] * scaleY;
+    const x2 = coords[2] * scaleX;
+    const y2 = coords[3] * scaleY;
+
+    highlight.style.left = `${x1}px`;
+    highlight.style.top = `${y1}px`;
+    highlight.style.width = `${x2 - x1}px`;
+    highlight.style.height = `${y2 - y1}px`;
     highlight.style.display = 'block';
 }
 
@@ -324,6 +360,137 @@ function fn_hideHighlight() {
     document.getElementById('id_highlightBox').style.display = 'none';
     document.getElementById('id_description').innerHTML = "Hover over an area to see the description here.";
 }
+
+
+const isDebugMode = true; // Enable or disable debugging
+
+function highlightAreasInDebugMode() {
+    const img = document.getElementById('mapImage');
+    const { scaleX, scaleY } = getScalingFactors(img);
+    const areas = document.querySelectorAll('area');
+
+    // Remove existing debug highlights
+    document.querySelectorAll('.debug-highlight').forEach(el => el.remove());
+
+    areas.forEach(area => {
+        const coords = area.coords.split(',').map(Number);
+        const highlight = document.createElement('div');
+        highlight.classList.add('debug-highlight');
+
+        const x1 = coords[0] / scaleX;
+        const y1 = coords[1] / scaleY;
+        const x2 = coords[2] / scaleX;
+        const y2 = coords[3] / scaleY;
+
+        highlight.style.left = `${x1}px`;
+        highlight.style.top = `${y1}px`;
+        highlight.style.width = `${x2 - x1}px`;
+        highlight.style.height = `${y2 - y1}px`;
+
+        img.parentElement.appendChild(highlight);
+    });
+}
+
+function getScalingFactors(img) {
+    const naturalWidth = img.naturalWidth;
+    const naturalHeight = img.naturalHeight;
+    const currentWidth = img.clientWidth;
+    const currentHeight = img.clientHeight;
+    const scaleX = naturalWidth / currentWidth;
+    const scaleY = naturalHeight / currentHeight;
+    return { scaleX, scaleY };
+}
+
+function getLineNumber(element) {
+    // Get the full HTML content of the document
+    const html = document.documentElement.outerHTML;
+    
+    // Get the HTML content of the element
+    const elementHtml = element.outerHTML;
+
+    // Find the index of the element's HTML within the document's HTML
+    const index = html.indexOf(elementHtml);
+
+    // Get the substring before the element's HTML
+    const beforeElementHtml = html.substring(0, index);
+
+    // Count the number of newlines in the substring before the element
+    const linesBeforeElement = beforeElementHtml.split(/\r\n|\r|\n/).length;
+
+    // Add an offset for any additional lines not counted (if necessary)
+    const offset = 4; // Adjust this value based on your findings
+
+    // Return the adjusted line number
+    return linesBeforeElement + offset;
+}
+
+
+
+
+
+
+function checkImageSize() {
+    const img = document.getElementById('mapImage');
+    const content = document.getElementById('content');
+    const blankMessage = document.getElementById('blankMessage');
+
+    console.log(`Image dimensions: ${img.clientWidth}x${img.clientHeight}`);
+    console.log(`Natural dimensions: ${img.naturalWidth}x${img.naturalHeight}`);
+
+    if (img.clientWidth !== img.naturalWidth || img.clientHeight !== img.naturalHeight) {
+        console.log('Image is resized, hiding content');
+        content.style.visibility = 'hidden';
+        content.style.opacity = '0';
+        blankMessage.style.display = 'block';
+    } else {
+        console.log('Image is not resized, showing content');
+        content.style.visibility = 'visible';
+        content.style.opacity = '1';
+        blankMessage.style.display = 'none';
+
+        if (isDebugMode) {
+            highlightAreasInDebugMode();
+        }
+    }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    const areas = document.querySelectorAll('area');
+    areas.forEach(area => {
+        area.dataset.originalCoords = area.coords;
+    });
+
+    const img = document.getElementById('mapImage');
+    if (!img) {
+        console.error('Image with id "mapImage" not found');
+        return;
+    } else {
+        console.log('Image found:', img);
+    }
+
+    if (areas.length === 0) {
+        console.error('No areas found');
+        return;
+    } else {
+        console.log(`Number of areas found: ${areas.length}`);
+    }
+
+    if (isDebugMode) {
+        highlightAreasInDebugMode();
+    }
+
+    // Ensure initial check for image size
+    checkImageSize();
+});
+
+window.addEventListener('resize', () => {
+    checkImageSize();
+    if (isDebugMode) {
+        highlightAreasInDebugMode();
+    }
+});
+
+console.log('Script executed');
 </script>
 
 </body>
